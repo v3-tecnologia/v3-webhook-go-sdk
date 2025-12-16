@@ -239,9 +239,9 @@ func TestDriverBehaviorEvent_GetDriverBehaviorData_NoDriverBehavior(t *testing.T
 
 func TestDriverBehaviorEvent_GetDriverBehaviorData_InvalidJSON(t *testing.T) {
 	tripEvent := map[string]interface{}{
-		"trip_id":         "trip-123",
+		"trip_id":          "trip-123",
 		"event_group_name": "DRIVER_BEHAVIOR",
-		"driver_behavior": make(chan int),
+		"driver_behavior":  make(chan int),
 	}
 
 	data := &base.Data{
@@ -249,7 +249,7 @@ func TestDriverBehaviorEvent_GetDriverBehaviorData_InvalidJSON(t *testing.T) {
 	}
 
 	baseEvent := &base.BaseEvent{
-		ID:        "event-123",
+		ID:         "event-123",
 		Status:     base.StatusReceived,
 		CreatedAt:  time.Now(),
 		Type:       base.EventTypeGeneral,

@@ -4,11 +4,12 @@ Uma biblioteca Go para processamento e análise de eventos de dispositivos IoT, 
 
 ## Funcionalidades
 
-- ✅ Parsing de eventos JSON estruturados
-- ✅ Validação de eventos
+- ✅ Parsing de eventos JSON usando protocol-cloud (protojson)
+- ✅ Validação de eventos baseada em Protocol Buffers
 - ✅ **SDK Webhook agnóstica** - sem dependências de servidor HTTP
 - ✅ Integração com qualquer framework HTTP (Gin, Echo, net/http, etc.)
 - ✅ Handlers com callbacks para facilitar consumo de eventos
+- ✅ Arquitetura modular com processors por contexto de evento
 - ✅ Suporte completo a 46+ tipos de eventos reais:
   - Ordens e confirmações (ACK)
   - Driver Monitoring System (DMS) - 11 tipos
@@ -18,6 +19,7 @@ Uma biblioteca Go para processamento e análise de eventos de dispositivos IoT, 
   - Visão básica - 5 tipos
 - ✅ Tipos strongly-typed para todas as estruturas de dados
 - ✅ Baseado em eventos reais de produção
+- ✅ Compatível com protocol-cloud (v3-tecnologia)
 
 ## Instalação
 
@@ -58,11 +60,12 @@ A biblioteca suporta os seguintes tipos de eventos (baseado em 46+ exemplos reai
   - Violação de velocidade (SPEED_VIOLATION)
   - Velocidade máxima persistente
 
-- **EVENT_CATEGORY_HARDWARE**: Eventos de hardware
-  - Reinício do dispositivo (RESTART, REBOOT)
+- **EVENT_CATEGORY_HEALTH**: Eventos de hardware/saúde do dispositivo
+  - Reinício do dispositivo (RESTART, REBOOT, R2_RESTART)
   - Estado do dispositivo
-  - Relatórios enviados
-  - Processamento de ordens
+  - SD Card montado/desmontado
+  - SIM Card inserido/removido
+  - Bateria do veículo conectada/desconectada
 
 - **EVENT_CATEGORY_SYSTEM**: Eventos de sistema
   - Uploads de arquivos
@@ -82,7 +85,7 @@ A biblioteca suporta os seguintes tipos de eventos (baseado em 46+ exemplos reai
 
 ## Uso da SDK
 
-A SDK processa eventos automaticamente através do `EventProcessor`. Você não precisa fazer parsing manual - apenas configure os handlers e processe os eventos.
+A SDK processa eventos automaticamente através do `EventProcessor`. O parsing é feito usando `protocol-cloud` com `protojson`, garantindo compatibilidade total com o protocolo V3. Você não precisa fazer parsing manual - apenas configure os handlers e processe os eventos.
 
 ### Builder Pattern (Recomendado)
 
@@ -95,7 +98,7 @@ import (
 )
 
 processor := webhook.NewEventProcessorBuilder().
-    WithOrderHandler(orderHandler).
+    WithEventHandler(eventHandler).
     WithConnectionHandler(connectionHandler).
     WithVisionHandler(visionHandler).
     Build()
@@ -105,15 +108,14 @@ event, err := processor.ProcessEvent(ctx, jsonBytes)
 // event é do tipo *base.BaseEvent
 ```
 
-### Método Tradicional (Compatibilidade)
+### Processamento de Múltiplos Eventos
 
-Você também pode usar os métodos `Set*` para compatibilidade com código existente:
+Para processar múltiplos eventos de uma vez (array de eventos):
 
 ```go
-processor := webhook.NewEventProcessor()
-processor.SetOrderHandler(orderHandler)
-processor.SetConnectionHandler(connectionHandler)
-event, err := processor.ProcessEvent(ctx, jsonBytes)
+events, err := processor.ProcessEvents(ctx, jsonBytes)
+// events é do tipo []*base.BaseEvent
+// Os callbacks são chamados para cada evento automaticamente
 ```
 
 ## Estrutura dos Dados
@@ -127,8 +129,9 @@ A biblioteca está organizada em pacotes contextuais para melhor modularidade:
 - **`pkg/types/order`**: Eventos de ordem (`order.Event`)
 - **`pkg/types/connection`**: Eventos de conexão (`connection.Event`)
 - **`pkg/types/vision`**: Eventos de visão (`vision.Event`)
-- **`pkg/types/hardware`**: Eventos de hardware (`hardware.Event`)
+- **`pkg/types/hardware`**: Eventos de hardware (`hardware.Event`) - mapeado de `EVENT_CATEGORY_HEALTH`
 - **`pkg/types/system`**: Eventos de sistema (`system.Event`)
+- **`pkg/webhook/processors`**: Processors modulares por contexto de evento
 - **`pkg/types/telemetry`**: Eventos de telemetria (`telemetry.Event`)
 - **`pkg/types/alert`**: Eventos de alerta (`alert.Event`)
 - **`pkg/types/dms`**: Eventos DMS (`dms.Event`)
@@ -228,8 +231,8 @@ import (
 )
 
 func main() {
-    orderHandler := webhook.NewOrderHandler()
-    orderHandler.OnOrderReceived = func(ctx context.Context, event *order.Event) error {
+    eventHandler := webhook.NewEventHandler()
+    eventHandler.OnOrderReceived = func(ctx context.Context, event *order.Event) error {
         if ord := event.GetOrder(); ord != nil {
             log.Printf("Ordem recebida: ID=%s, Status=%s", event.ID, ord.Status)
         } else {
@@ -237,7 +240,7 @@ func main() {
         }
         return nil
     }
-    orderHandler.OnOrderAck = func(ctx context.Context, event *order.Event) error {
+    eventHandler.OnOrderAck = func(ctx context.Context, event *order.Event) error {
         if ord := event.GetOrder(); ord != nil {
             log.Printf("Ordem confirmada: ID=%s, Status=%s", event.ID, ord.Status)
         } else {
@@ -257,7 +260,7 @@ func main() {
     }
 
     processor := webhook.NewEventProcessorBuilder().
-        WithOrderHandler(orderHandler).
+        WithEventHandler(eventHandler).
         WithConnectionHandler(connectionHandler).
         Build()
 
@@ -288,25 +291,25 @@ func main() {
 
 A SDK oferece handlers pré-definidos com callbacks para facilitar o consumo de eventos:
 
-#### OrderHandler
+#### EventHandler
 ```go
 import "go-eventlib/pkg/types/order"
 
-orderHandler := webhook.NewOrderHandler()
-orderHandler.OnOrderReceived = func(ctx context.Context, event *order.Event) error {
+eventHandler := webhook.NewEventHandler()
+eventHandler.OnOrderReceived = func(ctx context.Context, event *order.Event) error {
     if ord := event.GetOrder(); ord != nil {
         // Processar ordem recebida com dados específicos
         log.Printf("Ordem: %s, Status: %s", ord.ID, ord.Status)
     }
     return nil
 }
-orderHandler.OnOrderAck = func(ctx context.Context, event *order.Event) error {
+eventHandler.OnOrderAck = func(ctx context.Context, event *order.Event) error {
     // Processar ordem confirmada
     return nil
 }
 
 processor := webhook.NewEventProcessorBuilder().
-    WithOrderHandler(orderHandler).
+    WithEventHandler(eventHandler).
     Build()
 ```
 
@@ -660,10 +663,11 @@ A SDK suporta processamento automático de callbacks para os seguintes tipos de 
 - `SPEED_VIOLATION` - Violação de velocidade
 - Velocidade máxima persistente
 
-#### Eventos de Hardware
-- `RESTART` / `REBOOT` - Reinício do dispositivo
-- Estados do dispositivo
-- Relatórios enviados
+#### Eventos de Hardware (EVENT_CATEGORY_HEALTH)
+- `RESTART` / `REBOOT` / `R2_RESTART` - Reinício do dispositivo
+- `SD_CARD_MOUNTED` / `SD_CARD_UNMOUNTED` - SD Card montado/desmontado
+- `SIMCARD_INSERTED` / `SIMCARD_REMOVED` / `SIMCARD_PRESENT` - Mudanças de SIM Card
+- `VEHICLE_BATTERY_CONNECTED` / `VEHICLE_BATTERY_DISCONNECTED` - Bateria do veículo
 
 #### Eventos de Telemetria
 - `EVENT_SUB_TELEMETRY_IGNITION` - Status de ignição
@@ -674,14 +678,25 @@ A SDK suporta processamento automático de callbacks para os seguintes tipos de 
 
 Confira os exemplos em `examples/`:
 
-- `webhook/main.go`: Exemplo de servidor webhook usando net/http
+- `webhook/main.go`: Exemplo completo de servidor webhook usando net/http com todos os handlers
 
 Para executar o exemplo:
 
 ```bash
+# Usando Air (hot reload)
+cd go-eventlib
+air
+
+# Ou execução direta
 cd examples/webhook
 go run main.go
+
+# Ou build e execução
+go build -o ./tmp/webhook-example ./examples/webhook/main.go
+./tmp/webhook-example
 ```
+
+O servidor inicia na porta 8080. Veja `examples/webhook/README.md` para mais detalhes.
 
 ### Integração com Frameworks HTTP
 
@@ -888,6 +903,51 @@ A biblioteca inclui 46+ exemplos reais de eventos JSON organizados por categoria
 - **vision-basic-events/** (5 arquivos): Eventos básicos de visão
 
 Esses arquivos estão disponíveis em `event-mapping-viewer/src/mindmap-sections/serialized-jsons/` e podem ser usados para testes e desenvolvimento.
+
+## Arquitetura
+
+A biblioteca utiliza uma arquitetura modular com processors especializados:
+
+- **EventProcessor**: Interface principal para processamento de eventos
+- **EventProcessorBuilder**: Builder pattern para configuração fluente
+- **Processors**: Processors modulares por contexto (OrderProcessor, ConnectionProcessor, VisionProcessor, etc.)
+- **Handlers**: Handlers com callbacks específicos para cada tipo de evento
+
+O parsing é feito usando `protocol-cloud` com `protojson`, garantindo:
+- Compatibilidade total com o protocolo V3
+- Validação baseada em Protocol Buffers
+- Suporte a enums e tipos complexos do protocol-cloud
+- Mesmas opções de MarshalOptions do event-handler-worker
+
+## Dependências
+
+- `github.com/v3-tecnologia/protocol-cloud`: Protocolo de eventos V3
+- `google.golang.org/protobuf/encoding/protojson`: Parsing JSON para Protocol Buffers
+
+## Testes
+
+A biblioteca possui cobertura de testes de **55.2%**:
+
+```bash
+# Executar todos os testes com coverage
+go test ./... -coverprofile=coverage.out -covermode=atomic
+
+# Ver coverage detalhado
+go tool cover -func=coverage.out
+
+# Gerar relatório HTML
+go tool cover -html=coverage.out -o coverage.html
+```
+
+**Coverage por pacote:**
+- `pkg/types/base`: 100.0%
+- `pkg/types/order`: 100.0%
+- `pkg/types/vehicle`: 100.0%
+- `pkg/types/telemetry`: 92.3%
+- `pkg/types/alert`: 88.9%
+- `pkg/types/connection`: 88.0%
+- `pkg/webhook`: 82.6%
+- Outros pacotes: 85-87%
 
 ## Contribuição
 

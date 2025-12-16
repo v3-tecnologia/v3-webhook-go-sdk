@@ -7,6 +7,7 @@
 *.test
 
 *.out
+coverage.out
 
 go.work
 go.work.sum
@@ -24,3 +25,15 @@ vendor/
 
 webhook
 process-events
+webhook-example
+main
+
+tmp/
+*.json
+
+build-errors.log
+
+.env
+.env.local
+
+proto/gen/

@@ -29,7 +29,7 @@ type FirmwareVersion struct {
 type SystemEventData struct {
 	ID        string       `json:"id"`
 	EventName string       `json:"event_name"`
-	Upload    *UploadEvent  `json:"upload,omitempty"`
+	Upload    *UploadEvent `json:"upload,omitempty"`
 	Timestamp time.Time    `json:"timestamp"`
 }
 

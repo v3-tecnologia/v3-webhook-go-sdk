@@ -24,7 +24,7 @@ func TestSystemEvent_GetSystemData(t *testing.T) {
 	}
 
 	baseEvent := &base.BaseEvent{
-		ID:        "event-123",
+		ID:         "event-123",
 		Status:     base.StatusReceived,
 		CreatedAt:  time.Now(),
 		Type:       base.EventTypeGeneral,
@@ -52,7 +52,7 @@ func TestSystemEvent_GetSystemData(t *testing.T) {
 
 func TestSystemEvent_GetUploadData(t *testing.T) {
 	uploadData := map[string]interface{}{
-		"name": "upload-test",
+		"name":  "upload-test",
 		"files": []interface{}{},
 	}
 
@@ -73,7 +73,7 @@ func TestSystemEvent_GetUploadData(t *testing.T) {
 	}
 
 	baseEvent := &base.BaseEvent{
-		ID:        "event-123",
+		ID:         "event-123",
 		Status:     base.StatusReceived,
 		CreatedAt:  time.Now(),
 		Type:       base.EventTypeGeneral,
@@ -97,7 +97,7 @@ func TestSystemEvent_GetUploadData(t *testing.T) {
 
 func TestSystemEvent_GetSystemData_Nil(t *testing.T) {
 	baseEvent := &base.BaseEvent{
-		ID:        "event-123",
+		ID:         "event-123",
 		Status:     base.StatusReceived,
 		CreatedAt:  time.Now(),
 		Type:       base.EventTypeGeneral,
@@ -115,7 +115,7 @@ func TestSystemEvent_GetSystemData_Nil(t *testing.T) {
 
 func TestSystemEvent_GetUploadData_Nil(t *testing.T) {
 	baseEvent := &base.BaseEvent{
-		ID:        "event-123",
+		ID:         "event-123",
 		Status:     base.StatusReceived,
 		CreatedAt:  time.Now(),
 		Type:       base.EventTypeGeneral,
@@ -141,7 +141,7 @@ func TestSystemEvent_GetSystemData_NoSystem(t *testing.T) {
 	}
 
 	baseEvent := &base.BaseEvent{
-		ID:        "event-123",
+		ID:         "event-123",
 		Status:     base.StatusReceived,
 		CreatedAt:  time.Now(),
 		Type:       base.EventTypeGeneral,
@@ -160,7 +160,7 @@ func TestSystemEvent_GetSystemData_NoSystem(t *testing.T) {
 func TestSystemEvent_GetSystemData_InvalidJSON(t *testing.T) {
 	standalone := map[string]interface{}{
 		"event_group_name": "SYSTEM",
-		"system":          make(chan int),
+		"system":           make(chan int),
 	}
 
 	data := &base.Data{
@@ -168,7 +168,7 @@ func TestSystemEvent_GetSystemData_InvalidJSON(t *testing.T) {
 	}
 
 	baseEvent := &base.BaseEvent{
-		ID:        "event-123",
+		ID:         "event-123",
 		Status:     base.StatusReceived,
 		CreatedAt:  time.Now(),
 		Type:       base.EventTypeGeneral,
