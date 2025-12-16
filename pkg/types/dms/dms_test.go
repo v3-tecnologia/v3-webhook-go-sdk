@@ -30,11 +30,11 @@ func TestDMSEvent_GetDMSData(t *testing.T) {
 
 	baseEvent := &base.BaseEvent{
 		ID:         "event-123",
-		Status:     base.StatusReceived,
+		Status:     base.EventStatus("STATUS_RECEIVED"),
 		CreatedAt:  time.Now(),
-		Type:       base.EventTypeGeneral,
-		Category:   base.EventCategoryDMS,
-		Sub:        base.EventSubDMSBasic,
+		Type:       base.EventType("EVENT_TYPE_GENERAL"),
+		Category:   base.EventCategory("EVENT_CATEGORY_DMS"),
+		Sub:        base.EventSub("EVENT_SUB_DMS_BASIC"),
 		Attributes: base.Attributes{Data: data},
 	}
 
@@ -78,11 +78,11 @@ func TestDMSEvent_GetDrowsinessData(t *testing.T) {
 
 	baseEvent := &base.BaseEvent{
 		ID:         "event-123",
-		Status:     base.StatusReceived,
+		Status:     base.EventStatus("STATUS_RECEIVED"),
 		CreatedAt:  time.Now(),
-		Type:       base.EventTypeGeneral,
-		Category:   base.EventCategoryDMS,
-		Sub:        base.EventSubDMSBasic,
+		Type:       base.EventType("EVENT_TYPE_GENERAL"),
+		Category:   base.EventCategory("EVENT_CATEGORY_DMS"),
+		Sub:        base.EventSub("EVENT_SUB_DMS_BASIC"),
 		Attributes: base.Attributes{Data: data},
 	}
 
@@ -118,11 +118,11 @@ func TestDMSEvent_GetEventName(t *testing.T) {
 
 	baseEvent := &base.BaseEvent{
 		ID:         "event-123",
-		Status:     base.StatusReceived,
+		Status:     base.EventStatus("STATUS_RECEIVED"),
 		CreatedAt:  time.Now(),
-		Type:       base.EventTypeGeneral,
-		Category:   base.EventCategoryDMS,
-		Sub:        base.EventSubDMSBasic,
+		Type:       base.EventType("EVENT_TYPE_GENERAL"),
+		Category:   base.EventCategory("EVENT_CATEGORY_DMS"),
+		Sub:        base.EventSub("EVENT_SUB_DMS_BASIC"),
 		Attributes: base.Attributes{Data: data},
 	}
 
@@ -156,11 +156,11 @@ func TestDMSEvent_GetDrinkingData(t *testing.T) {
 
 	baseEvent := &base.BaseEvent{
 		ID:         "event-123",
-		Status:     base.StatusReceived,
+		Status:     base.EventStatus("STATUS_RECEIVED"),
 		CreatedAt:  time.Now(),
-		Type:       base.EventTypeGeneral,
-		Category:   base.EventCategoryDMS,
-		Sub:        base.EventSubDMSBasic,
+		Type:       base.EventType("EVENT_TYPE_GENERAL"),
+		Category:   base.EventCategory("EVENT_CATEGORY_DMS"),
+		Sub:        base.EventSub("EVENT_SUB_DMS_BASIC"),
 		Attributes: base.Attributes{Data: data},
 	}
 
@@ -180,11 +180,11 @@ func TestDMSEvent_GetDrinkingData(t *testing.T) {
 func TestDMSEvent_GetDrinkingData_Nil(t *testing.T) {
 	baseEvent := &base.BaseEvent{
 		ID:         "event-123",
-		Status:     base.StatusReceived,
+		Status:     base.EventStatus("STATUS_RECEIVED"),
 		CreatedAt:  time.Now(),
-		Type:       base.EventTypeGeneral,
-		Category:   base.EventCategoryDMS,
-		Sub:        base.EventSubDMSBasic,
+		Type:       base.EventType("EVENT_TYPE_GENERAL"),
+		Category:   base.EventCategory("EVENT_CATEGORY_DMS"),
+		Sub:        base.EventSub("EVENT_SUB_DMS_BASIC"),
 		Attributes: base.Attributes{Data: nil},
 	}
 
@@ -198,11 +198,11 @@ func TestDMSEvent_GetDrinkingData_Nil(t *testing.T) {
 func TestDMSEvent_GetEventName_Empty(t *testing.T) {
 	baseEvent := &base.BaseEvent{
 		ID:         "event-123",
-		Status:     base.StatusReceived,
+		Status:     base.EventStatus("STATUS_RECEIVED"),
 		CreatedAt:  time.Now(),
-		Type:       base.EventTypeGeneral,
-		Category:   base.EventCategoryDMS,
-		Sub:        base.EventSubDMSBasic,
+		Type:       base.EventType("EVENT_TYPE_GENERAL"),
+		Category:   base.EventCategory("EVENT_CATEGORY_DMS"),
+		Sub:        base.EventSub("EVENT_SUB_DMS_BASIC"),
 		Attributes: base.Attributes{Data: nil},
 	}
 
@@ -225,11 +225,11 @@ func TestDMSEvent_GetDMSData_NoDMS(t *testing.T) {
 
 	baseEvent := &base.BaseEvent{
 		ID:         "event-123",
-		Status:     base.StatusReceived,
+		Status:     base.EventStatus("STATUS_RECEIVED"),
 		CreatedAt:  time.Now(),
-		Type:       base.EventTypeGeneral,
-		Category:   base.EventCategoryDMS,
-		Sub:        base.EventSubDMSBasic,
+		Type:       base.EventType("EVENT_TYPE_GENERAL"),
+		Category:   base.EventCategory("EVENT_CATEGORY_DMS"),
+		Sub:        base.EventSub("EVENT_SUB_DMS_BASIC"),
 		Attributes: base.Attributes{Data: data},
 	}
 
@@ -253,11 +253,11 @@ func TestDMSEvent_GetDMSData_InvalidJSON(t *testing.T) {
 
 	baseEvent := &base.BaseEvent{
 		ID:         "event-123",
-		Status:     base.StatusReceived,
+		Status:     base.EventStatus("STATUS_RECEIVED"),
 		CreatedAt:  time.Now(),
-		Type:       base.EventTypeGeneral,
-		Category:   base.EventCategoryDMS,
-		Sub:        base.EventSubDMSBasic,
+		Type:       base.EventType("EVENT_TYPE_GENERAL"),
+		Category:   base.EventCategory("EVENT_CATEGORY_DMS"),
+		Sub:        base.EventSub("EVENT_SUB_DMS_BASIC"),
 		Attributes: base.Attributes{Data: data},
 	}
 

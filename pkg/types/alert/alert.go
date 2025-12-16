@@ -26,12 +26,12 @@ func New(baseEvent *base.BaseEvent) *Event {
 }
 
 func (e *Event) GetAlertLevel() string {
-	switch e.Sub {
-	case base.EventSubAlertCritical:
+	switch string(e.Sub) {
+	case "EVENT_SUB_ALERT_CRITICAL":
 		return "critical"
-	case base.EventSubAlertWarning:
+	case "EVENT_SUB_ALERT_WARNING":
 		return "warning"
-	case base.EventSubAlertInfo:
+	case "EVENT_SUB_ALERT_INFO":
 		return "info"
 	default:
 		return "unknown"

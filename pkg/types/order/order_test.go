@@ -11,20 +11,20 @@ func TestOrderEvent_GetOrder(t *testing.T) {
 	order := &base.Order{
 		ID:            "order-123",
 		CorrelationID: "corr-123",
-		Group:         base.OrderGroupConfig,
-		Status:        base.OrderStatusAck,
-		Type:          base.OrderTypeConfig,
+		Group:         base.OrderGroup("ORDER_GROUP_CONFIG"),
+		Status:        base.OrderStatus("ORDER_STATUS_ACK"),
+		Type:          base.OrderType("CONFIG"),
 		CreatedAt:     time.Now(),
 		UpdatedAt:     time.Now(),
 	}
 
 	baseEvent := &base.BaseEvent{
 		ID:         "event-123",
-		Status:     base.StatusReceived,
+		Status:     base.EventStatus("STATUS_RECEIVED"),
 		CreatedAt:  time.Now(),
-		Type:       base.EventTypeOrder,
-		Category:   base.EventCategoryOrder,
-		Sub:        base.EventSubOrderStatus,
+		Type:       base.EventType("EVENT_TYPE_ORDER"),
+		Category:   base.EventCategory("EVENT_CATEGORY_ORDER"),
+		Sub:        base.EventSub("EVENT_SUB_ORDER_STATUS"),
 		Attributes: base.Attributes{Order: order},
 	}
 
@@ -40,11 +40,11 @@ func TestOrderEvent_GetOrder(t *testing.T) {
 func TestOrderEvent_GetOrder_Nil(t *testing.T) {
 	baseEvent := &base.BaseEvent{
 		ID:         "event-123",
-		Status:     base.StatusReceived,
+		Status:     base.EventStatus("STATUS_RECEIVED"),
 		CreatedAt:  time.Now(),
-		Type:       base.EventTypeOrder,
-		Category:   base.EventCategoryOrder,
-		Sub:        base.EventSubOrderStatus,
+		Type:       base.EventType("EVENT_TYPE_ORDER"),
+		Category:   base.EventCategory("EVENT_CATEGORY_ORDER"),
+		Sub:        base.EventSub("EVENT_SUB_ORDER_STATUS"),
 		Attributes: base.Attributes{Order: nil},
 	}
 

@@ -25,11 +25,11 @@ func TestHardwareEvent_GetSystemEventData(t *testing.T) {
 
 	baseEvent := &base.BaseEvent{
 		ID:         "event-123",
-		Status:     base.StatusReceived,
+		Status:     base.EventStatus("STATUS_RECEIVED"),
 		CreatedAt:  time.Now(),
-		Type:       base.EventTypeGeneral,
-		Category:   base.EventCategoryHardware,
-		Sub:        base.EventSubSystemUpload,
+		Type:       base.EventType("EVENT_TYPE_GENERAL"),
+		Category:   base.EventCategory("EVENT_CATEGORY_HEALTH"),
+		Sub:        base.EventSub("EVENT_SUB_SYSTEM_UPLOAD"),
 		Attributes: base.Attributes{Data: data},
 	}
 
@@ -71,11 +71,11 @@ func TestHardwareEvent_GetAlertEventData(t *testing.T) {
 
 	baseEvent := &base.BaseEvent{
 		ID:         "event-123",
-		Status:     base.StatusReceived,
+		Status:     base.EventStatus("STATUS_RECEIVED"),
 		CreatedAt:  time.Now(),
-		Type:       base.EventTypeGeneral,
-		Category:   base.EventCategoryHardware,
-		Sub:        base.EventSubAlertInfo,
+		Type:       base.EventType("EVENT_TYPE_GENERAL"),
+		Category:   base.EventCategory("EVENT_CATEGORY_HEALTH"),
+		Sub:        base.EventSub("EVENT_SUB_ALERT_INFO"),
 		Attributes: base.Attributes{Data: data},
 	}
 
@@ -114,11 +114,11 @@ func TestHardwareEvent_GetEventName(t *testing.T) {
 
 	baseEvent := &base.BaseEvent{
 		ID:         "event-123",
-		Status:     base.StatusReceived,
+		Status:     base.EventStatus("STATUS_RECEIVED"),
 		CreatedAt:  time.Now(),
-		Type:       base.EventTypeGeneral,
-		Category:   base.EventCategoryHardware,
-		Sub:        base.EventSubAlertInfo,
+		Type:       base.EventType("EVENT_TYPE_GENERAL"),
+		Category:   base.EventCategory("EVENT_CATEGORY_HEALTH"),
+		Sub:        base.EventSub("EVENT_SUB_ALERT_INFO"),
 		Attributes: base.Attributes{Data: data},
 	}
 
@@ -147,11 +147,11 @@ func TestHardwareEvent_GetEventName_FromSystem(t *testing.T) {
 
 	baseEvent := &base.BaseEvent{
 		ID:         "event-123",
-		Status:     base.StatusReceived,
+		Status:     base.EventStatus("STATUS_RECEIVED"),
 		CreatedAt:  time.Now(),
-		Type:       base.EventTypeGeneral,
-		Category:   base.EventCategoryHardware,
-		Sub:        base.EventSubSystemUpload,
+		Type:       base.EventType("EVENT_TYPE_GENERAL"),
+		Category:   base.EventCategory("EVENT_CATEGORY_HEALTH"),
+		Sub:        base.EventSub("EVENT_SUB_SYSTEM_UPLOAD"),
 		Attributes: base.Attributes{Data: data},
 	}
 
@@ -165,11 +165,11 @@ func TestHardwareEvent_GetEventName_FromSystem(t *testing.T) {
 func TestHardwareEvent_GetEventName_Empty(t *testing.T) {
 	baseEvent := &base.BaseEvent{
 		ID:         "event-123",
-		Status:     base.StatusReceived,
+		Status:     base.EventStatus("STATUS_RECEIVED"),
 		CreatedAt:  time.Now(),
-		Type:       base.EventTypeGeneral,
-		Category:   base.EventCategoryHardware,
-		Sub:        base.EventSubSystemUpload,
+		Type:       base.EventType("EVENT_TYPE_GENERAL"),
+		Category:   base.EventCategory("EVENT_CATEGORY_HEALTH"),
+		Sub:        base.EventSub("EVENT_SUB_SYSTEM_UPLOAD"),
 		Attributes: base.Attributes{Data: nil},
 	}
 
@@ -183,11 +183,11 @@ func TestHardwareEvent_GetEventName_Empty(t *testing.T) {
 func TestHardwareEvent_GetSystemEventData_Nil(t *testing.T) {
 	baseEvent := &base.BaseEvent{
 		ID:         "event-123",
-		Status:     base.StatusReceived,
+		Status:     base.EventStatus("STATUS_RECEIVED"),
 		CreatedAt:  time.Now(),
-		Type:       base.EventTypeGeneral,
-		Category:   base.EventCategoryHardware,
-		Sub:        base.EventSubSystemUpload,
+		Type:       base.EventType("EVENT_TYPE_GENERAL"),
+		Category:   base.EventCategory("EVENT_CATEGORY_HEALTH"),
+		Sub:        base.EventSub("EVENT_SUB_SYSTEM_UPLOAD"),
 		Attributes: base.Attributes{Data: nil},
 	}
 
@@ -201,11 +201,11 @@ func TestHardwareEvent_GetSystemEventData_Nil(t *testing.T) {
 func TestHardwareEvent_GetAlertEventData_Nil(t *testing.T) {
 	baseEvent := &base.BaseEvent{
 		ID:         "event-123",
-		Status:     base.StatusReceived,
+		Status:     base.EventStatus("STATUS_RECEIVED"),
 		CreatedAt:  time.Now(),
-		Type:       base.EventTypeGeneral,
-		Category:   base.EventCategoryHardware,
-		Sub:        base.EventSubAlertInfo,
+		Type:       base.EventType("EVENT_TYPE_GENERAL"),
+		Category:   base.EventCategory("EVENT_CATEGORY_HEALTH"),
+		Sub:        base.EventSub("EVENT_SUB_ALERT_INFO"),
 		Attributes: base.Attributes{Data: nil},
 	}
 
@@ -227,11 +227,11 @@ func TestHardwareEvent_GetSystemEventData_NoSystem(t *testing.T) {
 
 	baseEvent := &base.BaseEvent{
 		ID:         "event-123",
-		Status:     base.StatusReceived,
+		Status:     base.EventStatus("STATUS_RECEIVED"),
 		CreatedAt:  time.Now(),
-		Type:       base.EventTypeGeneral,
-		Category:   base.EventCategoryHardware,
-		Sub:        base.EventSubSystemUpload,
+		Type:       base.EventType("EVENT_TYPE_GENERAL"),
+		Category:   base.EventCategory("EVENT_CATEGORY_HEALTH"),
+		Sub:        base.EventSub("EVENT_SUB_SYSTEM_UPLOAD"),
 		Attributes: base.Attributes{Data: data},
 	}
 
@@ -253,11 +253,11 @@ func TestHardwareEvent_GetAlertEventData_NoAlert(t *testing.T) {
 
 	baseEvent := &base.BaseEvent{
 		ID:         "event-123",
-		Status:     base.StatusReceived,
+		Status:     base.EventStatus("STATUS_RECEIVED"),
 		CreatedAt:  time.Now(),
-		Type:       base.EventTypeGeneral,
-		Category:   base.EventCategoryHardware,
-		Sub:        base.EventSubAlertInfo,
+		Type:       base.EventType("EVENT_TYPE_GENERAL"),
+		Category:   base.EventCategory("EVENT_CATEGORY_HEALTH"),
+		Sub:        base.EventSub("EVENT_SUB_ALERT_INFO"),
 		Attributes: base.Attributes{Data: data},
 	}
 
@@ -280,11 +280,11 @@ func TestHardwareEvent_GetSystemEventData_InvalidJSON(t *testing.T) {
 
 	baseEvent := &base.BaseEvent{
 		ID:         "event-123",
-		Status:     base.StatusReceived,
+		Status:     base.EventStatus("STATUS_RECEIVED"),
 		CreatedAt:  time.Now(),
-		Type:       base.EventTypeGeneral,
-		Category:   base.EventCategoryHardware,
-		Sub:        base.EventSubSystemUpload,
+		Type:       base.EventType("EVENT_TYPE_GENERAL"),
+		Category:   base.EventCategory("EVENT_CATEGORY_HEALTH"),
+		Sub:        base.EventSub("EVENT_SUB_SYSTEM_UPLOAD"),
 		Attributes: base.Attributes{Data: data},
 	}
 
@@ -307,11 +307,11 @@ func TestHardwareEvent_GetAlertEventData_InvalidJSON(t *testing.T) {
 
 	baseEvent := &base.BaseEvent{
 		ID:         "event-123",
-		Status:     base.StatusReceived,
+		Status:     base.EventStatus("STATUS_RECEIVED"),
 		CreatedAt:  time.Now(),
-		Type:       base.EventTypeGeneral,
-		Category:   base.EventCategoryHardware,
-		Sub:        base.EventSubAlertInfo,
+		Type:       base.EventType("EVENT_TYPE_GENERAL"),
+		Category:   base.EventCategory("EVENT_CATEGORY_HEALTH"),
+		Sub:        base.EventSub("EVENT_SUB_ALERT_INFO"),
 		Attributes: base.Attributes{Data: data},
 	}
 

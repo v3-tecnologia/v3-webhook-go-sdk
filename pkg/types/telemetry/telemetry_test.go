@@ -27,11 +27,11 @@ func TestTelemetryEvent_GetTelemetryData(t *testing.T) {
 
 	baseEvent := &base.BaseEvent{
 		ID:         "event-123",
-		Status:     base.StatusReceived,
+		Status:     base.EventStatus("STATUS_RECEIVED"),
 		CreatedAt:  time.Now(),
-		Type:       base.EventTypeGeneral,
-		Category:   base.EventCategoryTelemetry,
-		Sub:        base.EventSubTelemetryBattery,
+		Type:       base.EventType("EVENT_TYPE_GENERAL"),
+		Category:   base.EventCategory("EVENT_CATEGORY_TELEMETRY"),
+		Sub:        base.EventSub("EVENT_SUB_TELEMETRY_BATTERY"),
 		Attributes: base.Attributes{Data: data},
 	}
 
@@ -72,11 +72,11 @@ func TestTelemetryEvent_GetBatteryMetrics(t *testing.T) {
 
 	baseEvent := &base.BaseEvent{
 		ID:         "event-123",
-		Status:     base.StatusReceived,
+		Status:     base.EventStatus("STATUS_RECEIVED"),
 		CreatedAt:  time.Now(),
-		Type:       base.EventTypeGeneral,
-		Category:   base.EventCategoryTelemetry,
-		Sub:        base.EventSubTelemetryBattery,
+		Type:       base.EventType("EVENT_TYPE_GENERAL"),
+		Category:   base.EventCategory("EVENT_CATEGORY_TELEMETRY"),
+		Sub:        base.EventSub("EVENT_SUB_TELEMETRY_BATTERY"),
 		Attributes: base.Attributes{Data: data},
 	}
 
@@ -106,11 +106,11 @@ func TestTelemetryEvent_GetBatteryMetrics(t *testing.T) {
 func TestTelemetryEvent_GetTelemetryData_Nil(t *testing.T) {
 	baseEvent := &base.BaseEvent{
 		ID:         "event-123",
-		Status:     base.StatusReceived,
+		Status:     base.EventStatus("STATUS_RECEIVED"),
 		CreatedAt:  time.Now(),
-		Type:       base.EventTypeGeneral,
-		Category:   base.EventCategoryTelemetry,
-		Sub:        base.EventSubTelemetryBattery,
+		Type:       base.EventType("EVENT_TYPE_GENERAL"),
+		Category:   base.EventCategory("EVENT_CATEGORY_TELEMETRY"),
+		Sub:        base.EventSub("EVENT_SUB_TELEMETRY_BATTERY"),
 		Attributes: base.Attributes{Data: nil},
 	}
 
@@ -124,11 +124,11 @@ func TestTelemetryEvent_GetTelemetryData_Nil(t *testing.T) {
 func TestTelemetryEvent_GetBatteryMetrics_Nil(t *testing.T) {
 	baseEvent := &base.BaseEvent{
 		ID:         "event-123",
-		Status:     base.StatusReceived,
+		Status:     base.EventStatus("STATUS_RECEIVED"),
 		CreatedAt:  time.Now(),
-		Type:       base.EventTypeGeneral,
-		Category:   base.EventCategoryTelemetry,
-		Sub:        base.EventSubTelemetryBattery,
+		Type:       base.EventType("EVENT_TYPE_GENERAL"),
+		Category:   base.EventCategory("EVENT_CATEGORY_TELEMETRY"),
+		Sub:        base.EventSub("EVENT_SUB_TELEMETRY_BATTERY"),
 		Attributes: base.Attributes{Data: nil},
 	}
 
@@ -146,11 +146,11 @@ func TestTelemetryEvent_GetTelemetryData_InvalidJSON(t *testing.T) {
 
 	baseEvent := &base.BaseEvent{
 		ID:         "event-123",
-		Status:     base.StatusReceived,
+		Status:     base.EventStatus("STATUS_RECEIVED"),
 		CreatedAt:  time.Now(),
-		Type:       base.EventTypeGeneral,
-		Category:   base.EventCategoryTelemetry,
-		Sub:        base.EventSubTelemetryBattery,
+		Type:       base.EventType("EVENT_TYPE_GENERAL"),
+		Category:   base.EventCategory("EVENT_CATEGORY_TELEMETRY"),
+		Sub:        base.EventSub("EVENT_SUB_TELEMETRY_BATTERY"),
 		Attributes: base.Attributes{Data: data},
 	}
 

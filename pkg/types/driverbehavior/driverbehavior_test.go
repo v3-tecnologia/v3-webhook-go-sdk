@@ -29,11 +29,11 @@ func TestDriverBehaviorEvent_GetDriverBehaviorData(t *testing.T) {
 
 	baseEvent := &base.BaseEvent{
 		ID:         "event-123",
-		Status:     base.StatusReceived,
+		Status:     base.EventStatus("STATUS_RECEIVED"),
 		CreatedAt:  time.Now(),
-		Type:       base.EventTypeGeneral,
-		Category:   base.EventCategoryDriverBehavior,
-		Sub:        base.EventSubDriverBehaviorAdvanced,
+		Type:       base.EventType("EVENT_TYPE_GENERAL"),
+		Category:   base.EventCategory("EVENT_CATEGORY_DRIVER_BEHAVIOR"),
+		Sub:        base.EventSub("EVENT_SUB_DRIVER_BEHAVIOR_ADVANCED"),
 		Attributes: base.Attributes{Data: data},
 	}
 
@@ -76,11 +76,11 @@ func TestDriverBehaviorEvent_GetHarshAccelerationData(t *testing.T) {
 
 	baseEvent := &base.BaseEvent{
 		ID:         "event-123",
-		Status:     base.StatusReceived,
+		Status:     base.EventStatus("STATUS_RECEIVED"),
 		CreatedAt:  time.Now(),
-		Type:       base.EventTypeGeneral,
-		Category:   base.EventCategoryDriverBehavior,
-		Sub:        base.EventSubDriverBehaviorAdvanced,
+		Type:       base.EventType("EVENT_TYPE_GENERAL"),
+		Category:   base.EventCategory("EVENT_CATEGORY_DRIVER_BEHAVIOR"),
+		Sub:        base.EventSub("EVENT_SUB_DRIVER_BEHAVIOR_ADVANCED"),
 		Attributes: base.Attributes{Data: data},
 	}
 
@@ -116,11 +116,11 @@ func TestDriverBehaviorEvent_GetEventName(t *testing.T) {
 
 	baseEvent := &base.BaseEvent{
 		ID:         "event-123",
-		Status:     base.StatusReceived,
+		Status:     base.EventStatus("STATUS_RECEIVED"),
 		CreatedAt:  time.Now(),
-		Type:       base.EventTypeGeneral,
-		Category:   base.EventCategoryDriverBehavior,
-		Sub:        base.EventSubDriverBehaviorAdvanced,
+		Type:       base.EventType("EVENT_TYPE_GENERAL"),
+		Category:   base.EventCategory("EVENT_CATEGORY_DRIVER_BEHAVIOR"),
+		Sub:        base.EventSub("EVENT_SUB_DRIVER_BEHAVIOR_ADVANCED"),
 		Attributes: base.Attributes{Data: data},
 	}
 
@@ -153,11 +153,11 @@ func TestDriverBehaviorEvent_GetHarshBrakingData(t *testing.T) {
 
 	baseEvent := &base.BaseEvent{
 		ID:         "event-123",
-		Status:     base.StatusReceived,
+		Status:     base.EventStatus("STATUS_RECEIVED"),
 		CreatedAt:  time.Now(),
-		Type:       base.EventTypeGeneral,
-		Category:   base.EventCategoryDriverBehavior,
-		Sub:        base.EventSubDriverBehaviorAdvanced,
+		Type:       base.EventType("EVENT_TYPE_GENERAL"),
+		Category:   base.EventCategory("EVENT_CATEGORY_DRIVER_BEHAVIOR"),
+		Sub:        base.EventSub("EVENT_SUB_DRIVER_BEHAVIOR_ADVANCED"),
 		Attributes: base.Attributes{Data: data},
 	}
 
@@ -177,11 +177,11 @@ func TestDriverBehaviorEvent_GetHarshBrakingData(t *testing.T) {
 func TestDriverBehaviorEvent_GetHarshBrakingData_Nil(t *testing.T) {
 	baseEvent := &base.BaseEvent{
 		ID:         "event-123",
-		Status:     base.StatusReceived,
+		Status:     base.EventStatus("STATUS_RECEIVED"),
 		CreatedAt:  time.Now(),
-		Type:       base.EventTypeGeneral,
-		Category:   base.EventCategoryDriverBehavior,
-		Sub:        base.EventSubDriverBehaviorAdvanced,
+		Type:       base.EventType("EVENT_TYPE_GENERAL"),
+		Category:   base.EventCategory("EVENT_CATEGORY_DRIVER_BEHAVIOR"),
+		Sub:        base.EventSub("EVENT_SUB_DRIVER_BEHAVIOR_ADVANCED"),
 		Attributes: base.Attributes{Data: nil},
 	}
 
@@ -195,11 +195,11 @@ func TestDriverBehaviorEvent_GetHarshBrakingData_Nil(t *testing.T) {
 func TestDriverBehaviorEvent_GetEventName_Empty(t *testing.T) {
 	baseEvent := &base.BaseEvent{
 		ID:         "event-123",
-		Status:     base.StatusReceived,
+		Status:     base.EventStatus("STATUS_RECEIVED"),
 		CreatedAt:  time.Now(),
-		Type:       base.EventTypeGeneral,
-		Category:   base.EventCategoryDriverBehavior,
-		Sub:        base.EventSubDriverBehaviorAdvanced,
+		Type:       base.EventType("EVENT_TYPE_GENERAL"),
+		Category:   base.EventCategory("EVENT_CATEGORY_DRIVER_BEHAVIOR"),
+		Sub:        base.EventSub("EVENT_SUB_DRIVER_BEHAVIOR_ADVANCED"),
 		Attributes: base.Attributes{Data: nil},
 	}
 
@@ -222,11 +222,11 @@ func TestDriverBehaviorEvent_GetDriverBehaviorData_NoDriverBehavior(t *testing.T
 
 	baseEvent := &base.BaseEvent{
 		ID:         "event-123",
-		Status:     base.StatusReceived,
+		Status:     base.EventStatus("STATUS_RECEIVED"),
 		CreatedAt:  time.Now(),
-		Type:       base.EventTypeGeneral,
-		Category:   base.EventCategoryDriverBehavior,
-		Sub:        base.EventSubDriverBehaviorAdvanced,
+		Type:       base.EventType("EVENT_TYPE_GENERAL"),
+		Category:   base.EventCategory("EVENT_CATEGORY_DRIVER_BEHAVIOR"),
+		Sub:        base.EventSub("EVENT_SUB_DRIVER_BEHAVIOR_ADVANCED"),
 		Attributes: base.Attributes{Data: data},
 	}
 
@@ -250,11 +250,11 @@ func TestDriverBehaviorEvent_GetDriverBehaviorData_InvalidJSON(t *testing.T) {
 
 	baseEvent := &base.BaseEvent{
 		ID:         "event-123",
-		Status:     base.StatusReceived,
+		Status:     base.EventStatus("STATUS_RECEIVED"),
 		CreatedAt:  time.Now(),
-		Type:       base.EventTypeGeneral,
-		Category:   base.EventCategoryDriverBehavior,
-		Sub:        base.EventSubDriverBehaviorAdvanced,
+		Type:       base.EventType("EVENT_TYPE_GENERAL"),
+		Category:   base.EventCategory("EVENT_CATEGORY_DRIVER_BEHAVIOR"),
+		Sub:        base.EventSub("EVENT_SUB_DRIVER_BEHAVIOR_ADVANCED"),
 		Attributes: base.Attributes{Data: data},
 	}
 

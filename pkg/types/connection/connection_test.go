@@ -31,11 +31,11 @@ func TestConnectionEvent_GetConnectionData(t *testing.T) {
 
 	baseEvent := &base.BaseEvent{
 		ID:         "event-123",
-		Status:     base.StatusReceived,
+		Status:     base.EventStatus("STATUS_RECEIVED"),
 		CreatedAt:  time.Now(),
-		Type:       base.EventTypeGeneral,
-		Category:   base.EventCategoryConnection,
-		Sub:        base.EventSubConnectionStatusChanged,
+		Type:       base.EventType("EVENT_TYPE_GENERAL"),
+		Category:   base.EventCategory("EVENT_CATEGORY_CONNECTION"),
+		Sub:        base.EventSub("EVENT_SUB_CONNECTION_STATUS_CHANGED"),
 		Attributes: base.Attributes{Data: data},
 	}
 
@@ -80,11 +80,11 @@ func TestConnectionEvent_GetWifiConnection(t *testing.T) {
 
 	baseEvent := &base.BaseEvent{
 		ID:         "event-123",
-		Status:     base.StatusReceived,
+		Status:     base.EventStatus("STATUS_RECEIVED"),
 		CreatedAt:  time.Now(),
-		Type:       base.EventTypeGeneral,
-		Category:   base.EventCategoryConnection,
-		Sub:        base.EventSubConnectionStatusChanged,
+		Type:       base.EventType("EVENT_TYPE_GENERAL"),
+		Category:   base.EventCategory("EVENT_CATEGORY_CONNECTION"),
+		Sub:        base.EventSub("EVENT_SUB_CONNECTION_STATUS_CHANGED"),
 		Attributes: base.Attributes{Data: data},
 	}
 
@@ -129,11 +129,11 @@ func TestConnectionEvent_GetSimCard(t *testing.T) {
 
 	baseEvent := &base.BaseEvent{
 		ID:         "event-123",
-		Status:     base.StatusReceived,
+		Status:     base.EventStatus("STATUS_RECEIVED"),
 		CreatedAt:  time.Now(),
-		Type:       base.EventTypeGeneral,
-		Category:   base.EventCategoryConnection,
-		Sub:        base.EventSubConnectionStatusChanged,
+		Type:       base.EventType("EVENT_TYPE_GENERAL"),
+		Category:   base.EventCategory("EVENT_CATEGORY_CONNECTION"),
+		Sub:        base.EventSub("EVENT_SUB_CONNECTION_STATUS_CHANGED"),
 		Attributes: base.Attributes{Data: data},
 	}
 
@@ -157,11 +157,11 @@ func TestConnectionEvent_GetSimCard(t *testing.T) {
 func TestConnectionEvent_GetConnectionData_Nil(t *testing.T) {
 	baseEvent := &base.BaseEvent{
 		ID:         "event-123",
-		Status:     base.StatusReceived,
+		Status:     base.EventStatus("STATUS_RECEIVED"),
 		CreatedAt:  time.Now(),
-		Type:       base.EventTypeGeneral,
-		Category:   base.EventCategoryConnection,
-		Sub:        base.EventSubConnectionStatusChanged,
+		Type:       base.EventType("EVENT_TYPE_GENERAL"),
+		Category:   base.EventCategory("EVENT_CATEGORY_CONNECTION"),
+		Sub:        base.EventSub("EVENT_SUB_CONNECTION_STATUS_CHANGED"),
 		Attributes: base.Attributes{Data: nil},
 	}
 
@@ -175,11 +175,11 @@ func TestConnectionEvent_GetConnectionData_Nil(t *testing.T) {
 func TestConnectionEvent_GetWifiConnection_Nil(t *testing.T) {
 	baseEvent := &base.BaseEvent{
 		ID:         "event-123",
-		Status:     base.StatusReceived,
+		Status:     base.EventStatus("STATUS_RECEIVED"),
 		CreatedAt:  time.Now(),
-		Type:       base.EventTypeGeneral,
-		Category:   base.EventCategoryConnection,
-		Sub:        base.EventSubConnectionStatusChanged,
+		Type:       base.EventType("EVENT_TYPE_GENERAL"),
+		Category:   base.EventCategory("EVENT_CATEGORY_CONNECTION"),
+		Sub:        base.EventSub("EVENT_SUB_CONNECTION_STATUS_CHANGED"),
 		Attributes: base.Attributes{Data: nil},
 	}
 
@@ -193,11 +193,11 @@ func TestConnectionEvent_GetWifiConnection_Nil(t *testing.T) {
 func TestConnectionEvent_GetSimCard_Nil(t *testing.T) {
 	baseEvent := &base.BaseEvent{
 		ID:         "event-123",
-		Status:     base.StatusReceived,
+		Status:     base.EventStatus("STATUS_RECEIVED"),
 		CreatedAt:  time.Now(),
-		Type:       base.EventTypeGeneral,
-		Category:   base.EventCategoryConnection,
-		Sub:        base.EventSubConnectionStatusChanged,
+		Type:       base.EventType("EVENT_TYPE_GENERAL"),
+		Category:   base.EventCategory("EVENT_CATEGORY_CONNECTION"),
+		Sub:        base.EventSub("EVENT_SUB_CONNECTION_STATUS_CHANGED"),
 		Attributes: base.Attributes{Data: nil},
 	}
 
@@ -219,11 +219,11 @@ func TestConnectionEvent_GetConnectionData_NoConnection(t *testing.T) {
 
 	baseEvent := &base.BaseEvent{
 		ID:         "event-123",
-		Status:     base.StatusReceived,
+		Status:     base.EventStatus("STATUS_RECEIVED"),
 		CreatedAt:  time.Now(),
-		Type:       base.EventTypeGeneral,
-		Category:   base.EventCategoryConnection,
-		Sub:        base.EventSubConnectionStatusChanged,
+		Type:       base.EventType("EVENT_TYPE_GENERAL"),
+		Category:   base.EventCategory("EVENT_CATEGORY_CONNECTION"),
+		Sub:        base.EventSub("EVENT_SUB_CONNECTION_STATUS_CHANGED"),
 		Attributes: base.Attributes{Data: data},
 	}
 
@@ -246,11 +246,11 @@ func TestConnectionEvent_GetConnectionData_InvalidJSON(t *testing.T) {
 
 	baseEvent := &base.BaseEvent{
 		ID:         "event-123",
-		Status:     base.StatusReceived,
+		Status:     base.EventStatus("STATUS_RECEIVED"),
 		CreatedAt:  time.Now(),
-		Type:       base.EventTypeGeneral,
-		Category:   base.EventCategoryConnection,
-		Sub:        base.EventSubConnectionStatusChanged,
+		Type:       base.EventType("EVENT_TYPE_GENERAL"),
+		Category:   base.EventCategory("EVENT_CATEGORY_CONNECTION"),
+		Sub:        base.EventSub("EVENT_SUB_CONNECTION_STATUS_CHANGED"),
 		Attributes: base.Attributes{Data: data},
 	}
 

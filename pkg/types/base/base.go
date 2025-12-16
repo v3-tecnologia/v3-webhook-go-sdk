@@ -6,58 +6,11 @@ import (
 
 type EventStatus string
 
-const (
-	StatusReceived  EventStatus = "STATUS_RECEIVED"
-	StatusProcessed EventStatus = "STATUS_PROCESSED"
-	StatusFailed    EventStatus = "STATUS_FAILED"
-)
-
 type EventType string
-
-const (
-	EventTypeOrder   EventType = "EVENT_TYPE_ORDER"
-	EventTypeGeneral EventType = "EVENT_TYPE_GENERAL"
-)
 
 type EventCategory string
 
-const (
-	EventCategoryOrder          EventCategory = "EVENT_CATEGORY_ORDER"
-	EventCategorySystem         EventCategory = "EVENT_CATEGORY_SYSTEM"
-	EventCategoryHardware       EventCategory = "EVENT_CATEGORY_HARDWARE"
-	EventCategoryConnection     EventCategory = "EVENT_CATEGORY_CONNECTION"
-	EventCategoryVision         EventCategory = "EVENT_CATEGORY_VISION"
-	EventCategoryTelemetry      EventCategory = "EVENT_CATEGORY_TELEMETRY"
-	EventCategoryDMS            EventCategory = "EVENT_CATEGORY_DMS"
-	EventCategoryDriverBehavior EventCategory = "EVENT_CATEGORY_DRIVER_BEHAVIOR"
-	EventCategoryVehicle        EventCategory = "EVENT_CATEGORY_VEHICLE"
-	EventCategoryAlert          EventCategory = "EVENT_CATEGORY_ALERT"
-)
-
 type EventSub string
-
-const (
-	EventSubOrderStatus EventSub = "EVENT_SUB_ORDER_STATUS"
-
-	EventSubSystemUpload EventSub = "EVENT_SUB_SYSTEM_UPLOAD"
-
-	EventSubConnectionStatusChanged EventSub = "EVENT_SUB_CONNECTION_STATUS_CHANGED"
-	EventSubAlertCritical           EventSub = "EVENT_SUB_ALERT_CRITICAL"
-
-	EventSubVisionBasic EventSub = "EVENT_SUB_VISION_BASIC"
-
-	EventSubDMSBasic    EventSub = "EVENT_SUB_DMS_BASIC"
-	EventSubDMSAdvanced EventSub = "EVENT_SUB_DMS_ADVANCED"
-
-	EventSubDriverBehaviorAdvanced EventSub = "EVENT_SUB_DRIVER_BEHAVIOR_ADVANCED"
-
-	EventSubAlertWarning EventSub = "EVENT_SUB_ALERT_WARNING"
-	EventSubAlertInfo    EventSub = "EVENT_SUB_ALERT_INFO"
-
-	EventSubTelemetryBattery  EventSub = "EVENT_SUB_TELEMETRY_BATTERY"
-	EventSubTelemetryIgnition EventSub = "EVENT_SUB_TELEMETRY_IGNITION"
-	EventSubTelemetryLocation EventSub = "EVENT_SUB_TELEMETRY_LOCATION"
-)
 
 type Event interface {
 	GetID() string
@@ -114,23 +67,9 @@ type Order struct {
 
 type OrderStatus string
 
-const (
-	OrderStatusAck    OrderStatus = "ORDER_STATUS_ACK"
-	OrderStatusSent   OrderStatus = "ORDER_STATUS_SENT"
-	OrderStatusFailed OrderStatus = "ORDER_STATUS_FAILED"
-)
-
 type OrderGroup string
 
-const (
-	OrderGroupConfig OrderGroup = "ORDER_GROUP_CONFIG"
-)
-
 type OrderType string
-
-const (
-	OrderTypeConfig OrderType = "CONFIG"
-)
 
 type Data struct {
 	Telemetry       interface{} `json:"telemetry,omitempty"`

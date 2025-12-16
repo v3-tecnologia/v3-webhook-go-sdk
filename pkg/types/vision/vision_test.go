@@ -29,11 +29,11 @@ func TestVisionEvent_GetVisionEventData(t *testing.T) {
 
 	baseEvent := &base.BaseEvent{
 		ID:         "event-123",
-		Status:     base.StatusReceived,
+		Status:     base.EventStatus("STATUS_RECEIVED"),
 		CreatedAt:  time.Now(),
-		Type:       base.EventTypeGeneral,
-		Category:   base.EventCategoryVision,
-		Sub:        base.EventSubVisionBasic,
+		Type:       base.EventType("EVENT_TYPE_GENERAL"),
+		Category:   base.EventCategory("EVENT_CATEGORY_VISION"),
+		Sub:        base.EventSub("EVENT_SUB_VISION_BASIC"),
 		Attributes: base.Attributes{Data: data},
 	}
 
@@ -73,11 +73,11 @@ func TestVisionEvent_GetEventName(t *testing.T) {
 
 	baseEvent := &base.BaseEvent{
 		ID:         "event-123",
-		Status:     base.StatusReceived,
+		Status:     base.EventStatus("STATUS_RECEIVED"),
 		CreatedAt:  time.Now(),
-		Type:       base.EventTypeGeneral,
-		Category:   base.EventCategoryVision,
-		Sub:        base.EventSubVisionBasic,
+		Type:       base.EventType("EVENT_TYPE_GENERAL"),
+		Category:   base.EventCategory("EVENT_CATEGORY_VISION"),
+		Sub:        base.EventSub("EVENT_SUB_VISION_BASIC"),
 		Attributes: base.Attributes{Data: data},
 	}
 
@@ -115,11 +115,11 @@ func TestVisionEvent_GetFaceDetectedData(t *testing.T) {
 
 	baseEvent := &base.BaseEvent{
 		ID:         "event-123",
-		Status:     base.StatusReceived,
+		Status:     base.EventStatus("STATUS_RECEIVED"),
 		CreatedAt:  time.Now(),
-		Type:       base.EventTypeGeneral,
-		Category:   base.EventCategoryVision,
-		Sub:        base.EventSubVisionBasic,
+		Type:       base.EventType("EVENT_TYPE_GENERAL"),
+		Category:   base.EventCategory("EVENT_CATEGORY_VISION"),
+		Sub:        base.EventSub("EVENT_SUB_VISION_BASIC"),
 		Attributes: base.Attributes{Data: data},
 	}
 
@@ -158,11 +158,11 @@ func TestVisionEvent_GetFaceLostData(t *testing.T) {
 
 	baseEvent := &base.BaseEvent{
 		ID:         "event-123",
-		Status:     base.StatusReceived,
+		Status:     base.EventStatus("STATUS_RECEIVED"),
 		CreatedAt:  time.Now(),
-		Type:       base.EventTypeGeneral,
-		Category:   base.EventCategoryVision,
-		Sub:        base.EventSubVisionBasic,
+		Type:       base.EventType("EVENT_TYPE_GENERAL"),
+		Category:   base.EventCategory("EVENT_CATEGORY_VISION"),
+		Sub:        base.EventSub("EVENT_SUB_VISION_BASIC"),
 		Attributes: base.Attributes{Data: data},
 	}
 
@@ -182,11 +182,11 @@ func TestVisionEvent_GetFaceLostData(t *testing.T) {
 func TestVisionEvent_GetFaceDetectedData_Nil(t *testing.T) {
 	baseEvent := &base.BaseEvent{
 		ID:         "event-123",
-		Status:     base.StatusReceived,
+		Status:     base.EventStatus("STATUS_RECEIVED"),
 		CreatedAt:  time.Now(),
-		Type:       base.EventTypeGeneral,
-		Category:   base.EventCategoryVision,
-		Sub:        base.EventSubVisionBasic,
+		Type:       base.EventType("EVENT_TYPE_GENERAL"),
+		Category:   base.EventCategory("EVENT_CATEGORY_VISION"),
+		Sub:        base.EventSub("EVENT_SUB_VISION_BASIC"),
 		Attributes: base.Attributes{Data: nil},
 	}
 
@@ -200,11 +200,11 @@ func TestVisionEvent_GetFaceDetectedData_Nil(t *testing.T) {
 func TestVisionEvent_GetEventName_Empty(t *testing.T) {
 	baseEvent := &base.BaseEvent{
 		ID:         "event-123",
-		Status:     base.StatusReceived,
+		Status:     base.EventStatus("STATUS_RECEIVED"),
 		CreatedAt:  time.Now(),
-		Type:       base.EventTypeGeneral,
-		Category:   base.EventCategoryVision,
-		Sub:        base.EventSubVisionBasic,
+		Type:       base.EventType("EVENT_TYPE_GENERAL"),
+		Category:   base.EventCategory("EVENT_CATEGORY_VISION"),
+		Sub:        base.EventSub("EVENT_SUB_VISION_BASIC"),
 		Attributes: base.Attributes{Data: nil},
 	}
 
@@ -227,11 +227,11 @@ func TestVisionEvent_GetVisionEventData_NoVision(t *testing.T) {
 
 	baseEvent := &base.BaseEvent{
 		ID:         "event-123",
-		Status:     base.StatusReceived,
+		Status:     base.EventStatus("STATUS_RECEIVED"),
 		CreatedAt:  time.Now(),
-		Type:       base.EventTypeGeneral,
-		Category:   base.EventCategoryVision,
-		Sub:        base.EventSubVisionBasic,
+		Type:       base.EventType("EVENT_TYPE_GENERAL"),
+		Category:   base.EventCategory("EVENT_CATEGORY_VISION"),
+		Sub:        base.EventSub("EVENT_SUB_VISION_BASIC"),
 		Attributes: base.Attributes{Data: data},
 	}
 
@@ -255,11 +255,11 @@ func TestVisionEvent_GetVisionEventData_InvalidJSON(t *testing.T) {
 
 	baseEvent := &base.BaseEvent{
 		ID:         "event-123",
-		Status:     base.StatusReceived,
+		Status:     base.EventStatus("STATUS_RECEIVED"),
 		CreatedAt:  time.Now(),
-		Type:       base.EventTypeGeneral,
-		Category:   base.EventCategoryVision,
-		Sub:        base.EventSubVisionBasic,
+		Type:       base.EventType("EVENT_TYPE_GENERAL"),
+		Category:   base.EventCategory("EVENT_CATEGORY_VISION"),
+		Sub:        base.EventSub("EVENT_SUB_VISION_BASIC"),
 		Attributes: base.Attributes{Data: data},
 	}
 

@@ -221,9 +221,13 @@ package main
 import (
     "context"
     "encoding/json"
-    "io"
+        "io"
     "log"
     "net/http"
+    "os"
+    "os/signal"
+    "syscall"
+    "time"
 
     "go-eventlib/pkg/types/connection"
     "go-eventlib/pkg/types/order"
@@ -231,20 +235,22 @@ import (
 )
 
 func main() {
+    logger := log.New(os.Stdout, "[WEBHOOK] ", log.LstdFlags)
+
     eventHandler := webhook.NewEventHandler()
     eventHandler.OnOrderReceived = func(ctx context.Context, event *order.Event) error {
         if ord := event.GetOrder(); ord != nil {
-            log.Printf("Ordem recebida: ID=%s, Status=%s", event.ID, ord.Status)
+            logger.Printf("Ordem recebida: ID=%s, Status=%s, Type=%s", event.ID, ord.Status, ord.Type)
         } else {
-            log.Printf("Ordem recebida: ID=%s", event.ID)
+            logger.Printf("Ordem recebida: ID=%s, Status=%s", event.ID, event.Status)
         }
         return nil
     }
     eventHandler.OnOrderAck = func(ctx context.Context, event *order.Event) error {
         if ord := event.GetOrder(); ord != nil {
-            log.Printf("Ordem confirmada: ID=%s, Status=%s", event.ID, ord.Status)
+            logger.Printf("Ordem confirmada: ID=%s, Status=%s", event.ID, ord.Status)
         } else {
-            log.Printf("Ordem confirmada: ID=%s", event.ID)
+            logger.Printf("Ordem confirmada: ID=%s", event.ID)
         }
         return nil
     }
@@ -252,10 +258,24 @@ func main() {
     connectionHandler := webhook.NewConnectionHandler()
     connectionHandler.OnWifiConnected = func(ctx context.Context, event *connection.Event) error {
         if wifi := event.GetWifiConnection(); wifi != nil {
-            log.Printf("WiFi conectado: Device=%s, Status=%s", event.GetDeviceID(), wifi.Status)
+            logger.Printf("WiFi conectado: Device=%s, Status=%s", event.Attributes.Device.ID, wifi.Status)
         } else {
-            log.Printf("WiFi conectado: Device=%s", event.GetDeviceID())
+            logger.Printf("WiFi conectado: Device=%s", event.Attributes.Device.ID)
         }
+        return nil
+    }
+    connectionHandler.OnWifiDisconnected = func(ctx context.Context, event *connection.Event) error {
+        logger.Printf("WiFi desconectado: Device=%s", event.Attributes.Device.ID)
+        return nil
+    }
+    connectionHandler.OnSimCardChanged = func(ctx context.Context, event *connection.Event) error {
+        if sim := event.GetSimCard(); sim != nil {
+            logger.Printf("SIM card alterado: Device=%s, Status=%s", event.Attributes.Device.ID, sim.Status)
+        }
+        return nil
+    }
+    connectionHandler.OnConnectionError = func(ctx context.Context, event *connection.Event) error {
+        logger.Printf("Erro de conexão: Device=%s", event.Attributes.Device.ID)
         return nil
     }
 
@@ -264,26 +284,76 @@ func main() {
         WithConnectionHandler(connectionHandler).
         Build()
 
-    http.HandleFunc("/webhook", func(w http.ResponseWriter, r *http.Request) {
-        body, err := io.ReadAll(r.Body)
-        if err != nil {
-            http.Error(w, "Bad request", http.StatusBadRequest)
-            return
-        }
-        defer r.Body.Close()
-
-        ctx := context.Background()
-        event, err := processor.ProcessEvent(ctx, body)
-        if err != nil {
-            http.Error(w, "Error processing event", http.StatusInternalServerError)
-            return
-        }
-
-        w.WriteHeader(http.StatusAccepted)
+    mux := http.NewServeMux()
+    mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+        handleWebhook(w, r, processor, logger)
     })
 
-    log.Println("Servidor iniciado na porta 8080")
-    http.ListenAndServe(":8080", nil)
+    server := &http.Server{
+        Addr:         ":8080",
+        Handler:      mux,
+        ReadTimeout:  30 * time.Second,
+        WriteTimeout: 30 * time.Second,
+    }
+
+    go func() {
+        logger.Printf("Servidor webhook iniciado na porta 8080")
+        logger.Printf("Endpoint: http://localhost:8080/")
+
+        if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+            log.Fatalf("Erro ao iniciar servidor: %v", err)
+        }
+    }()
+
+    sigChan := make(chan os.Signal, 1)
+    signal.Notify(sigChan, syscall.SIGINT, syscall.SIGTERM)
+
+    logger.Printf("Servidor webhook rodando. Pressione Ctrl+C para parar.")
+
+    <-sigChan
+    logger.Printf("Sinal de interrupção recebido, encerrando servidor...")
+
+    ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+    defer cancel()
+
+    if err := server.Shutdown(ctx); err != nil {
+        log.Fatalf("Erro ao parar servidor: %v", err)
+    }
+
+    logger.Printf("Servidor encerrado com sucesso")
+}
+
+func handleWebhook(w http.ResponseWriter, r *http.Request, processor webhook.EventProcessor, logger *log.Logger) {
+    if r.Method != http.MethodPost {
+        http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+        return
+    }
+
+    body, err := io.ReadAll(r.Body)
+    if err != nil {
+        logger.Printf("Erro ao ler corpo: %v", err)
+        http.Error(w, "Bad request", http.StatusBadRequest)
+        return
+    }
+    defer r.Body.Close()
+
+    ctx := context.Background()
+    event, err := processor.ProcessEvent(ctx, body)
+    if err != nil {
+        logger.Printf("Erro ao processar evento: %v", err)
+        http.Error(w, "Internal server error", http.StatusInternalServerError)
+        return
+    }
+
+    eventJSON, err := json.MarshalIndent(event, "", "  ")
+    if err != nil {
+        logger.Printf("Erro ao serializar evento: %v", err)
+        logger.Printf("Evento processado: ID=%s, Category=%s, Type=%s", event.ID, event.Category, event.Type)
+    } else {
+        logger.Printf("Evento processado:\n%s", string(eventJSON))
+    }
+
+    w.WriteHeader(http.StatusAccepted)
 }
 ```
 
@@ -751,28 +821,6 @@ e.POST("/webhook", func(c echo.Context) error {
 })
 ```
 
-### Teste Prático
-
-```bash
-# Executar exemplo com servidor HTTP customizado
-cd examples/webhook
-go run main.go
-
-# Em outro terminal, testar webhook com evento de ordem
-curl -X POST http://localhost:8080/webhook/events \
-  -H "Content-Type: application/json" \
-  -d @../../event-mapping-viewer/src/mindmap-sections/serialized-jsons/ack-events/ack-order-event.json
-
-# Testar com evento de telemetria
-curl -X POST http://localhost:8080/webhook/events \
-  -H "Content-Type: application/json" \
-  -d @../../event-mapping-viewer/src/mindmap-sections/serialized-jsons/telemetry-events/telemetry-ignition.json
-
-# Testar com evento DMS
-curl -X POST http://localhost:8080/webhook/events \
-  -H "Content-Type: application/json" \
-  -d @../../event-mapping-viewer/src/mindmap-sections/serialized-jsons/dms-events/vision-drowsiness.json
-```
 
 ### Exemplos de Payloads de Teste
 

@@ -13,20 +13,20 @@ func TestAlertEvent_GetAlertLevel(t *testing.T) {
 		sub      base.EventSub
 		expected string
 	}{
-		{"Critical", base.EventSubAlertCritical, "critical"},
-		{"Warning", base.EventSubAlertWarning, "warning"},
-		{"Info", base.EventSubAlertInfo, "info"},
-		{"Unknown", base.EventSubOrderStatus, "unknown"},
+		{"Critical", base.EventSub("EVENT_SUB_ALERT_CRITICAL"), "critical"},
+		{"Warning", base.EventSub("EVENT_SUB_ALERT_WARNING"), "warning"},
+		{"Info", base.EventSub("EVENT_SUB_ALERT_INFO"), "info"},
+		{"Unknown", base.EventSub("EVENT_SUB_ORDER_STATUS"), "unknown"},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			baseEvent := &base.BaseEvent{
 				ID:         "event-123",
-				Status:     base.StatusReceived,
+				Status:     base.EventStatus("STATUS_RECEIVED"),
 				CreatedAt:  time.Now(),
-				Type:       base.EventTypeGeneral,
-				Category:   base.EventCategoryAlert,
+				Type:       base.EventType("EVENT_TYPE_GENERAL"),
+				Category:   base.EventCategory("EVENT_CATEGORY_ALERT"),
 				Sub:        tt.sub,
 				Attributes: base.Attributes{},
 			}
@@ -61,11 +61,11 @@ func TestAlertEvent_GetAlertEventData(t *testing.T) {
 
 	baseEvent := &base.BaseEvent{
 		ID:         "event-123",
-		Status:     base.StatusReceived,
+		Status:     base.EventStatus("STATUS_RECEIVED"),
 		CreatedAt:  time.Now(),
-		Type:       base.EventTypeGeneral,
-		Category:   base.EventCategoryAlert,
-		Sub:        base.EventSubAlertInfo,
+		Type:       base.EventType("EVENT_TYPE_GENERAL"),
+		Category:   base.EventCategory("EVENT_CATEGORY_ALERT"),
+		Sub:        base.EventSub("EVENT_SUB_ALERT_INFO"),
 		Attributes: base.Attributes{Data: data},
 	}
 
@@ -104,11 +104,11 @@ func TestAlertEvent_GetEventName(t *testing.T) {
 
 	baseEvent := &base.BaseEvent{
 		ID:         "event-123",
-		Status:     base.StatusReceived,
+		Status:     base.EventStatus("STATUS_RECEIVED"),
 		CreatedAt:  time.Now(),
-		Type:       base.EventTypeGeneral,
-		Category:   base.EventCategoryAlert,
-		Sub:        base.EventSubAlertInfo,
+		Type:       base.EventType("EVENT_TYPE_GENERAL"),
+		Category:   base.EventCategory("EVENT_CATEGORY_ALERT"),
+		Sub:        base.EventSub("EVENT_SUB_ALERT_INFO"),
 		Attributes: base.Attributes{Data: data},
 	}
 
@@ -122,11 +122,11 @@ func TestAlertEvent_GetEventName(t *testing.T) {
 func TestAlertEvent_GetAlertEventData_Nil(t *testing.T) {
 	baseEvent := &base.BaseEvent{
 		ID:         "event-123",
-		Status:     base.StatusReceived,
+		Status:     base.EventStatus("STATUS_RECEIVED"),
 		CreatedAt:  time.Now(),
-		Type:       base.EventTypeGeneral,
-		Category:   base.EventCategoryAlert,
-		Sub:        base.EventSubAlertInfo,
+		Type:       base.EventType("EVENT_TYPE_GENERAL"),
+		Category:   base.EventCategory("EVENT_CATEGORY_ALERT"),
+		Sub:        base.EventSub("EVENT_SUB_ALERT_INFO"),
 		Attributes: base.Attributes{Data: nil},
 	}
 
@@ -140,11 +140,11 @@ func TestAlertEvent_GetAlertEventData_Nil(t *testing.T) {
 func TestAlertEvent_GetEventName_Empty(t *testing.T) {
 	baseEvent := &base.BaseEvent{
 		ID:         "event-123",
-		Status:     base.StatusReceived,
+		Status:     base.EventStatus("STATUS_RECEIVED"),
 		CreatedAt:  time.Now(),
-		Type:       base.EventTypeGeneral,
-		Category:   base.EventCategoryAlert,
-		Sub:        base.EventSubAlertInfo,
+		Type:       base.EventType("EVENT_TYPE_GENERAL"),
+		Category:   base.EventCategory("EVENT_CATEGORY_ALERT"),
+		Sub:        base.EventSub("EVENT_SUB_ALERT_INFO"),
 		Attributes: base.Attributes{Data: nil},
 	}
 
@@ -166,11 +166,11 @@ func TestAlertEvent_GetAlertEventData_NoAlert(t *testing.T) {
 
 	baseEvent := &base.BaseEvent{
 		ID:         "event-123",
-		Status:     base.StatusReceived,
+		Status:     base.EventStatus("STATUS_RECEIVED"),
 		CreatedAt:  time.Now(),
-		Type:       base.EventTypeGeneral,
-		Category:   base.EventCategoryAlert,
-		Sub:        base.EventSubAlertInfo,
+		Type:       base.EventType("EVENT_TYPE_GENERAL"),
+		Category:   base.EventCategory("EVENT_CATEGORY_ALERT"),
+		Sub:        base.EventSub("EVENT_SUB_ALERT_INFO"),
 		Attributes: base.Attributes{Data: data},
 	}
 
@@ -193,11 +193,11 @@ func TestAlertEvent_GetAlertEventData_InvalidJSON(t *testing.T) {
 
 	baseEvent := &base.BaseEvent{
 		ID:         "event-123",
-		Status:     base.StatusReceived,
+		Status:     base.EventStatus("STATUS_RECEIVED"),
 		CreatedAt:  time.Now(),
-		Type:       base.EventTypeGeneral,
-		Category:   base.EventCategoryAlert,
-		Sub:        base.EventSubAlertInfo,
+		Type:       base.EventType("EVENT_TYPE_GENERAL"),
+		Category:   base.EventCategory("EVENT_CATEGORY_ALERT"),
+		Sub:        base.EventSub("EVENT_SUB_ALERT_INFO"),
 		Attributes: base.Attributes{Data: data},
 	}
 

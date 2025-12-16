@@ -25,11 +25,11 @@ func TestSystemEvent_GetSystemData(t *testing.T) {
 
 	baseEvent := &base.BaseEvent{
 		ID:         "event-123",
-		Status:     base.StatusReceived,
+		Status:     base.EventStatus("STATUS_RECEIVED"),
 		CreatedAt:  time.Now(),
-		Type:       base.EventTypeGeneral,
-		Category:   base.EventCategorySystem,
-		Sub:        base.EventSubSystemUpload,
+		Type:       base.EventType("EVENT_TYPE_GENERAL"),
+		Category:   base.EventCategory("EVENT_CATEGORY_SYSTEM"),
+		Sub:        base.EventSub("EVENT_SUB_SYSTEM_UPLOAD"),
 		Attributes: base.Attributes{Data: data},
 	}
 
@@ -74,11 +74,11 @@ func TestSystemEvent_GetUploadData(t *testing.T) {
 
 	baseEvent := &base.BaseEvent{
 		ID:         "event-123",
-		Status:     base.StatusReceived,
+		Status:     base.EventStatus("STATUS_RECEIVED"),
 		CreatedAt:  time.Now(),
-		Type:       base.EventTypeGeneral,
-		Category:   base.EventCategorySystem,
-		Sub:        base.EventSubSystemUpload,
+		Type:       base.EventType("EVENT_TYPE_GENERAL"),
+		Category:   base.EventCategory("EVENT_CATEGORY_SYSTEM"),
+		Sub:        base.EventSub("EVENT_SUB_SYSTEM_UPLOAD"),
 		Attributes: base.Attributes{Data: data},
 	}
 
@@ -98,11 +98,11 @@ func TestSystemEvent_GetUploadData(t *testing.T) {
 func TestSystemEvent_GetSystemData_Nil(t *testing.T) {
 	baseEvent := &base.BaseEvent{
 		ID:         "event-123",
-		Status:     base.StatusReceived,
+		Status:     base.EventStatus("STATUS_RECEIVED"),
 		CreatedAt:  time.Now(),
-		Type:       base.EventTypeGeneral,
-		Category:   base.EventCategorySystem,
-		Sub:        base.EventSubSystemUpload,
+		Type:       base.EventType("EVENT_TYPE_GENERAL"),
+		Category:   base.EventCategory("EVENT_CATEGORY_SYSTEM"),
+		Sub:        base.EventSub("EVENT_SUB_SYSTEM_UPLOAD"),
 		Attributes: base.Attributes{Data: nil},
 	}
 
@@ -116,11 +116,11 @@ func TestSystemEvent_GetSystemData_Nil(t *testing.T) {
 func TestSystemEvent_GetUploadData_Nil(t *testing.T) {
 	baseEvent := &base.BaseEvent{
 		ID:         "event-123",
-		Status:     base.StatusReceived,
+		Status:     base.EventStatus("STATUS_RECEIVED"),
 		CreatedAt:  time.Now(),
-		Type:       base.EventTypeGeneral,
-		Category:   base.EventCategorySystem,
-		Sub:        base.EventSubSystemUpload,
+		Type:       base.EventType("EVENT_TYPE_GENERAL"),
+		Category:   base.EventCategory("EVENT_CATEGORY_SYSTEM"),
+		Sub:        base.EventSub("EVENT_SUB_SYSTEM_UPLOAD"),
 		Attributes: base.Attributes{Data: nil},
 	}
 
@@ -142,11 +142,11 @@ func TestSystemEvent_GetSystemData_NoSystem(t *testing.T) {
 
 	baseEvent := &base.BaseEvent{
 		ID:         "event-123",
-		Status:     base.StatusReceived,
+		Status:     base.EventStatus("STATUS_RECEIVED"),
 		CreatedAt:  time.Now(),
-		Type:       base.EventTypeGeneral,
-		Category:   base.EventCategorySystem,
-		Sub:        base.EventSubSystemUpload,
+		Type:       base.EventType("EVENT_TYPE_GENERAL"),
+		Category:   base.EventCategory("EVENT_CATEGORY_SYSTEM"),
+		Sub:        base.EventSub("EVENT_SUB_SYSTEM_UPLOAD"),
 		Attributes: base.Attributes{Data: data},
 	}
 
@@ -169,11 +169,11 @@ func TestSystemEvent_GetSystemData_InvalidJSON(t *testing.T) {
 
 	baseEvent := &base.BaseEvent{
 		ID:         "event-123",
-		Status:     base.StatusReceived,
+		Status:     base.EventStatus("STATUS_RECEIVED"),
 		CreatedAt:  time.Now(),
-		Type:       base.EventTypeGeneral,
-		Category:   base.EventCategorySystem,
-		Sub:        base.EventSubSystemUpload,
+		Type:       base.EventType("EVENT_TYPE_GENERAL"),
+		Category:   base.EventCategory("EVENT_CATEGORY_SYSTEM"),
+		Sub:        base.EventSub("EVENT_SUB_SYSTEM_UPLOAD"),
 		Attributes: base.Attributes{Data: data},
 	}
 

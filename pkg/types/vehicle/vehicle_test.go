@@ -21,11 +21,11 @@ func TestVehicleEvent_GetVehicleTelemetry(t *testing.T) {
 
 	baseEvent := &base.BaseEvent{
 		ID:         "event-123",
-		Status:     base.StatusReceived,
+		Status:     base.EventStatus("STATUS_RECEIVED"),
 		CreatedAt:  time.Now(),
-		Type:       base.EventTypeGeneral,
-		Category:   base.EventCategoryVehicle,
-		Sub:        base.EventSubTelemetryIgnition,
+		Type:       base.EventType("EVENT_TYPE_GENERAL"),
+		Category:   base.EventCategory("EVENT_CATEGORY_VEHICLE"),
+		Sub:        base.EventSub("EVENT_SUB_TELEMETRY_IGNITION"),
 		Attributes: base.Attributes{Data: data},
 	}
 
@@ -49,11 +49,11 @@ func TestVehicleEvent_GetVehicleTelemetry(t *testing.T) {
 func TestVehicleEvent_GetVehicleTelemetry_Nil(t *testing.T) {
 	baseEvent := &base.BaseEvent{
 		ID:         "event-123",
-		Status:     base.StatusReceived,
+		Status:     base.EventStatus("STATUS_RECEIVED"),
 		CreatedAt:  time.Now(),
-		Type:       base.EventTypeGeneral,
-		Category:   base.EventCategoryVehicle,
-		Sub:        base.EventSubTelemetryIgnition,
+		Type:       base.EventType("EVENT_TYPE_GENERAL"),
+		Category:   base.EventCategory("EVENT_CATEGORY_VEHICLE"),
+		Sub:        base.EventSub("EVENT_SUB_TELEMETRY_IGNITION"),
 		Attributes: base.Attributes{Data: nil},
 	}
 

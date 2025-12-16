@@ -17,20 +17,20 @@ func TestBaseEvent_GetID(t *testing.T) {
 
 func TestBaseEvent_GetCategory(t *testing.T) {
 	event := &BaseEvent{
-		Category: EventCategoryOrder,
+		Category: EventCategory("EVENT_CATEGORY_ORDER"),
 	}
 
-	if got := event.GetCategory(); got != EventCategoryOrder {
+	if got := event.GetCategory(); string(got) != "EVENT_CATEGORY_ORDER" {
 		t.Errorf("GetCategory() = %s, esperava EVENT_CATEGORY_ORDER", got)
 	}
 }
 
 func TestBaseEvent_GetSubType(t *testing.T) {
 	event := &BaseEvent{
-		Sub: EventSubOrderStatus,
+		Sub: EventSub("EVENT_SUB_ORDER_STATUS"),
 	}
 
-	if got := event.GetSubType(); got != EventSubOrderStatus {
+	if got := event.GetSubType(); string(got) != "EVENT_SUB_ORDER_STATUS" {
 		t.Errorf("GetSubType() = %s, esperava EVENT_SUB_ORDER_STATUS", got)
 	}
 }
