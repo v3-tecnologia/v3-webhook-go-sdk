@@ -82,7 +82,11 @@ A biblioteca suporta os seguintes tipos de eventos (baseado em 46+ exemplos reai
 
 ## Uso da SDK
 
-A SDK processa eventos automaticamente através do `EventProcessor`. Você não precisa fazer parsing manual - apenas configure os handlers e processe os eventos:
+A SDK processa eventos automaticamente através do `EventProcessor`. Você não precisa fazer parsing manual - apenas configure os handlers e processe os eventos.
+
+### Builder Pattern (Recomendado)
+
+Use o `EventProcessorBuilder` para configurar o processador de forma fluente:
 
 ```go
 import (
@@ -90,11 +94,26 @@ import (
     "go-eventlib/pkg/webhook"
 )
 
-processor := webhook.NewEventProcessor()
-// Configurar handlers...
+processor := webhook.NewEventProcessorBuilder().
+    WithOrderHandler(orderHandler).
+    WithConnectionHandler(connectionHandler).
+    WithVisionHandler(visionHandler).
+    Build()
+
 event, err := processor.ProcessEvent(ctx, jsonBytes)
 // O evento já está parseado e os callbacks são chamados automaticamente
 // event é do tipo *base.BaseEvent
+```
+
+### Método Tradicional (Compatibilidade)
+
+Você também pode usar os métodos `Set*` para compatibilidade com código existente:
+
+```go
+processor := webhook.NewEventProcessor()
+processor.SetOrderHandler(orderHandler)
+processor.SetConnectionHandler(connectionHandler)
+event, err := processor.ProcessEvent(ctx, jsonBytes)
 ```
 
 ## Estrutura dos Dados
@@ -209,8 +228,6 @@ import (
 )
 
 func main() {
-    processor := webhook.NewEventProcessor()
-
     orderHandler := webhook.NewOrderHandler()
     orderHandler.OnOrderReceived = func(ctx context.Context, event *order.Event) error {
         if ord := event.GetOrder(); ord != nil {
@@ -228,7 +245,6 @@ func main() {
         }
         return nil
     }
-    processor.SetOrderHandler(orderHandler)
 
     connectionHandler := webhook.NewConnectionHandler()
     connectionHandler.OnWifiConnected = func(ctx context.Context, event *connection.Event) error {
@@ -239,7 +255,11 @@ func main() {
         }
         return nil
     }
-    processor.SetConnectionHandler(connectionHandler)
+
+    processor := webhook.NewEventProcessorBuilder().
+        WithOrderHandler(orderHandler).
+        WithConnectionHandler(connectionHandler).
+        Build()
 
     http.HandleFunc("/webhook", func(w http.ResponseWriter, r *http.Request) {
         body, err := io.ReadAll(r.Body)
@@ -256,13 +276,7 @@ func main() {
             return
         }
 
-        w.Header().Set("Content-Type", "application/json")
-        json.NewEncoder(w).Encode(map[string]interface{}{
-            "status":   "processed",
-            "event_id": event.ID,
-            "category": event.Category,
-            "type":     event.Type,
-        })
+        w.WriteHeader(http.StatusAccepted)
     })
 
     log.Println("Servidor iniciado na porta 8080")
@@ -290,7 +304,10 @@ orderHandler.OnOrderAck = func(ctx context.Context, event *order.Event) error {
     // Processar ordem confirmada
     return nil
 }
-processor.SetOrderHandler(orderHandler)
+
+processor := webhook.NewEventProcessorBuilder().
+    WithOrderHandler(orderHandler).
+    Build()
 ```
 
 #### ConnectionHandler
@@ -318,7 +335,10 @@ connectionHandler.OnConnectionError = func(ctx context.Context, event *connectio
     // Erro de conexão
     return nil
 }
-processor.SetConnectionHandler(connectionHandler)
+
+processor := webhook.NewEventProcessorBuilder().
+    WithConnectionHandler(connectionHandler).
+    Build()
 ```
 
 #### VisionHandler
@@ -352,7 +372,10 @@ visionHandler.OnVisionAlert = func(ctx context.Context, event *vision.Event) err
     // Alerta de visão genérico
     return nil
 }
-processor.SetVisionHandler(visionHandler)
+
+processor := webhook.NewEventProcessorBuilder().
+    WithVisionHandler(visionHandler).
+    Build()
 ```
 
 #### HardwareHandler
@@ -394,7 +417,10 @@ hardwareHandler.OnHardwareAlert = func(ctx context.Context, event *hardware.Even
     // Alerta de hardware
     return nil
 }
-processor.SetHardwareHandler(hardwareHandler)
+
+processor := webhook.NewEventProcessorBuilder().
+    WithHardwareHandler(hardwareHandler).
+    Build()
 ```
 
 #### SystemHandler
@@ -412,7 +438,10 @@ systemHandler.OnSystemAlert = func(ctx context.Context, event *system.Event) err
     // Alerta de sistema
     return nil
 }
-processor.SetSystemHandler(systemHandler)
+
+processor := webhook.NewEventProcessorBuilder().
+    WithSystemHandler(systemHandler).
+    Build()
 ```
 
 #### TelemetryHandler
@@ -440,7 +469,10 @@ telemetryHandler.OnTelemetryEvent = func(ctx context.Context, event *telemetry.E
     // Qualquer evento de telemetria
     return nil
 }
-processor.SetTelemetryHandler(telemetryHandler)
+
+processor := webhook.NewEventProcessorBuilder().
+    WithTelemetryHandler(telemetryHandler).
+    Build()
 ```
 
 #### AlertHandler
@@ -466,7 +498,10 @@ alertHandler.OnAnyAlert = func(ctx context.Context, event *alert.Event) error {
     }
     return nil
 }
-processor.SetAlertHandler(alertHandler)
+
+processor := webhook.NewEventProcessorBuilder().
+    WithAlertHandler(alertHandler).
+    Build()
 ```
 
 #### DMSHandler
@@ -522,7 +557,10 @@ dmsHandler.OnDMSAlert = func(ctx context.Context, event *dms.Event) error {
     // Qualquer alerta DMS
     return nil
 }
-processor.SetDMSHandler(dmsHandler)
+
+processor := webhook.NewEventProcessorBuilder().
+    WithDMSHandler(dmsHandler).
+    Build()
 ```
 
 #### DriverBehaviorHandler
@@ -566,7 +604,10 @@ driverBehaviorHandler.OnDriverBehaviorAlert = func(ctx context.Context, event *d
     // Qualquer alerta de comportamento
     return nil
 }
-processor.SetDriverBehaviorHandler(driverBehaviorHandler)
+
+processor := webhook.NewEventProcessorBuilder().
+    WithDriverBehaviorHandler(driverBehaviorHandler).
+    Build()
 ```
 
 #### VehicleHandler
@@ -582,7 +623,10 @@ vehicleHandler.OnVehicleEvent = func(ctx context.Context, event *vehicle.Event) 
     // Qualquer evento do veículo
     return nil
 }
-processor.SetVehicleHandler(vehicleHandler)
+
+processor := webhook.NewEventProcessorBuilder().
+    WithVehicleHandler(vehicleHandler).
+    Build()
 ```
 
 ### Tipos de Eventos Suportados
