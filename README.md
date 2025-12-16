@@ -1,95 +1,95 @@
 # Go Event Library
 
-Uma biblioteca Go para processamento e análise de eventos de dispositivos IoT, facilitando o trabalho com dados de telemetria, ordens, conexões e eventos de sistema.
+A Go library for processing and analyzing IoT device events, facilitating work with telemetry data, orders, connections, and system events.
 
-## Funcionalidades
+## Features
 
-- ✅ Parsing de eventos JSON usando protocol-cloud (protojson)
-- ✅ Validação de eventos baseada em Protocol Buffers
-- ✅ **SDK Webhook agnóstica** - sem dependências de servidor HTTP
-- ✅ Integração com qualquer framework HTTP (Gin, Echo, net/http, etc.)
-- ✅ Handlers com callbacks para facilitar consumo de eventos
-- ✅ Arquitetura modular com processors por contexto de evento
-- ✅ Suporte completo a 46+ tipos de eventos reais:
-  - Ordens e confirmações (ACK)
-  - Driver Monitoring System (DMS) - 11 tipos
-  - Comportamento do motorista - 7 tipos
-  - Hardware e sistema - 14 tipos
-  - Telemetria e localização - 6 tipos
-  - Visão básica - 5 tipos
-- ✅ Tipos strongly-typed para todas as estruturas de dados
-- ✅ Baseado em eventos reais de produção
-- ✅ Compatível com protocol-cloud (v3-tecnologia)
+- ✅ JSON event parsing using protocol-cloud (protojson)
+- ✅ Protocol Buffers-based event validation
+- ✅ **Agnostic Webhook SDK** - no HTTP server dependencies
+- ✅ Integration with any HTTP framework (Gin, Echo, net/http, etc.)
+- ✅ Handlers with callbacks to facilitate event consumption
+- ✅ Modular architecture with processors per event context
+- ✅ Full support for 46+ real event types:
+  - Orders and confirmations (ACK)
+  - Driver Monitoring System (DMS) - 11 types
+  - Driver behavior - 7 types
+  - Hardware and system - 14 types
+  - Telemetry and location - 6 types
+  - Basic vision - 5 types
+- ✅ Strongly-typed types for all data structures
+- ✅ Based on real production events
+- ✅ Compatible with protocol-cloud (v3-tecnologia)
 
-## Instalação
+## Installation
 
 ```bash
 go get github.com/your-org/go-eventlib
 ```
 
-## Estrutura dos Eventos
+## Event Structure
 
-A biblioteca suporta os seguintes tipos de eventos (baseado em 46+ exemplos reais):
+The library supports the following event types (based on 46+ real examples):
 
-### Categorias de Eventos
+### Event Categories
 
-- **EVENT_CATEGORY_ORDER**: Eventos relacionados a ordens e configurações
-  - `EVENT_SUB_ORDER_STATUS`: Status de ordens (ACK, SENT, FAILED)
+- **EVENT_CATEGORY_ORDER**: Events related to orders and configurations
+  - `EVENT_SUB_ORDER_STATUS`: Order status (ACK, SENT, FAILED)
 
-- **EVENT_CATEGORY_CONNECTION**: Eventos de conectividade
-  - WiFi conectado/desconectado
-  - Mudanças de SIM card
-  - Erros de conexão
+- **EVENT_CATEGORY_CONNECTION**: Connectivity events
+  - WiFi connected/disconnected
+  - SIM card changes
+  - Connection errors
 
-- **EVENT_CATEGORY_VISION**: Eventos de visão e câmera
-  - Face detectada/perdida/rastreada
-  - Câmera obstruída
-  - Sem face detectada
+- **EVENT_CATEGORY_VISION**: Vision and camera events
+  - Face detected/lost/tracked
+  - Camera obstructed
+  - No face detected
 
 - **EVENT_CATEGORY_DMS**: Driver Monitoring System
-  - Sonolência (DROWSINESS)
-  - Distração visual (GAZE_DISTRACTION, GAZE_FIXATION)
-  - Fechamento de olhos (EYE_CLOSURE)
-  - Uso de celular (ON_PHONE)
-  - Comendo/Bebendo (EATING, DRINKING)
-  - Postura distraída (POSE_DISTRACTION)
+  - Drowsiness (DROWSINESS)
+  - Visual distraction (GAZE_DISTRACTION, GAZE_FIXATION)
+  - Eye closure (EYE_CLOSURE)
+  - Phone usage (ON_PHONE)
+  - Eating/Drinking (EATING, DRINKING)
+  - Distracted posture (POSE_DISTRACTION)
 
-- **EVENT_CATEGORY_DRIVER_BEHAVIOR**: Comportamento do motorista
-  - Aceleração brusca (HARSH_ACCELERATION)
-  - Frenagem brusca (HARSH_BRAKING)
-  - Violação de velocidade (SPEED_VIOLATION)
-  - Velocidade máxima persistente
+- **EVENT_CATEGORY_DRIVER_BEHAVIOR**: Driver behavior
+  - Harsh acceleration (HARSH_ACCELERATION)
+  - Harsh braking (HARSH_BRAKING)
+  - Speed violation (SPEED_VIOLATION)
+  - Persistent maximum speed
 
-- **EVENT_CATEGORY_HEALTH**: Eventos de hardware/saúde do dispositivo
-  - Reinício do dispositivo (RESTART, REBOOT, R2_RESTART)
-  - Estado do dispositivo
-  - SD Card montado/desmontado
-  - SIM Card inserido/removido
-  - Bateria do veículo conectada/desconectada
+- **EVENT_CATEGORY_HEALTH**: Hardware/device health events
+  - Device restart (RESTART, REBOOT, R2_RESTART)
+  - Device state
+  - SD Card mounted/unmounted
+  - SIM Card inserted/removed
+  - Vehicle battery connected/disconnected
 
-- **EVENT_CATEGORY_SYSTEM**: Eventos de sistema
-  - Uploads de arquivos
-  - Alertas de sistema
+- **EVENT_CATEGORY_SYSTEM**: System events
+  - File uploads
+  - System alerts
 
-- **EVENT_CATEGORY_TELEMETRY**: Eventos de telemetria
-  - `EVENT_SUB_TELEMETRY_IGNITION`: Status de ignição (ON/OFF)
-  - `EVENT_SUB_TELEMETRY_BATTERY`: Status de bateria (device/vehicle)
-  - `EVENT_SUB_TELEMETRY_LOCATION`: Localização GPS
+- **EVENT_CATEGORY_TELEMETRY**: Telemetry events
+  - `EVENT_SUB_TELEMETRY_IGNITION`: Ignition status (ON/OFF)
+  - `EVENT_SUB_TELEMETRY_BATTERY`: Battery status (device/vehicle)
+  - `EVENT_SUB_TELEMETRY_LOCATION`: GPS location
 
-- **EVENT_CATEGORY_VEHICLE**: Eventos do veículo
-  - Status de ignição
-  - Métricas do veículo
+- **EVENT_CATEGORY_VEHICLE**: Vehicle events
+  - Ignition status
+  - Vehicle metrics
 
-- **EVENT_CATEGORY_ALERT**: Alertas gerais
-  - Críticos, avisos e informativos
+- **EVENT_CATEGORY_ALERT**: General alerts
+  - Critical, warnings, and informational
 
-## Uso da SDK
+## SDK Usage
 
-A SDK processa eventos automaticamente através do `EventProcessor`. O parsing é feito usando `protocol-cloud` com `protojson`, garantindo compatibilidade total com o protocolo V3. Você não precisa fazer parsing manual - apenas configure os handlers e processe os eventos.
+The SDK processes events automatically through the `EventProcessor`. Parsing is done using `protocol-cloud` with `protojson`, ensuring full compatibility with the V3 protocol. You don't need to do manual parsing - just configure the handlers and process the events.
 
-### Builder Pattern (Recomendado)
+### Builder Pattern (Recommended)
 
-Use o `EventProcessorBuilder` para configurar o processador de forma fluente:
+Use `EventProcessorBuilder` to configure the processor fluently:
 
 ```go
 import (
@@ -104,41 +104,41 @@ processor := webhook.NewEventProcessorBuilder().
     Build()
 
 event, err := processor.ProcessEvent(ctx, jsonBytes)
-// O evento já está parseado e os callbacks são chamados automaticamente
-// event é do tipo *base.BaseEvent
+// The event is already parsed and callbacks are called automatically
+// event is of type *base.BaseEvent
 ```
 
-### Processamento de Múltiplos Eventos
+### Processing Multiple Events
 
-Para processar múltiplos eventos de uma vez (array de eventos):
+To process multiple events at once (array of events):
 
 ```go
 events, err := processor.ProcessEvents(ctx, jsonBytes)
-// events é do tipo []*base.BaseEvent
-// Os callbacks são chamados para cada evento automaticamente
+// events is of type []*base.BaseEvent
+// Callbacks are called for each event automatically
 ```
 
-## Estrutura dos Dados
+## Data Structure
 
-### Estrutura de Pacotes
+### Package Structure
 
-A biblioteca está organizada em pacotes contextuais para melhor modularidade:
+The library is organized into contextual packages for better modularity:
 
-- **`pkg/types/base`**: Tipos base compartilhados (`BaseEvent`, `EventCategory`, `EventSub`, etc.)
-- **`pkg/types/common`**: Tipos comuns (`Location`, `Coordinates`, `GNSS`, `Connectivity`, `Fix`)
-- **`pkg/types/order`**: Eventos de ordem (`order.Event`)
-- **`pkg/types/connection`**: Eventos de conexão (`connection.Event`)
-- **`pkg/types/vision`**: Eventos de visão (`vision.Event`)
-- **`pkg/types/hardware`**: Eventos de hardware (`hardware.Event`) - mapeado de `EVENT_CATEGORY_HEALTH`
-- **`pkg/types/system`**: Eventos de sistema (`system.Event`)
-- **`pkg/webhook/processors`**: Processors modulares por contexto de evento
-- **`pkg/types/telemetry`**: Eventos de telemetria (`telemetry.Event`)
-- **`pkg/types/alert`**: Eventos de alerta (`alert.Event`)
-- **`pkg/types/dms`**: Eventos DMS (`dms.Event`)
-- **`pkg/types/driverbehavior`**: Eventos de comportamento (`driverbehavior.Event`)
-- **`pkg/types/vehicle`**: Eventos de veículo (`vehicle.Event`)
+- **`pkg/types/base`**: Shared base types (`BaseEvent`, `EventCategory`, `EventSub`, etc.)
+- **`pkg/types/common`**: Common types (`Location`, `Coordinates`, `GNSS`, `Connectivity`, `Fix`)
+- **`pkg/types/order`**: Order events (`order.Event`)
+- **`pkg/types/connection`**: Connection events (`connection.Event`)
+- **`pkg/types/vision`**: Vision events (`vision.Event`)
+- **`pkg/types/hardware`**: Hardware events (`hardware.Event`) - mapped from `EVENT_CATEGORY_HEALTH`
+- **`pkg/types/system`**: System events (`system.Event`)
+- **`pkg/webhook/processors`**: Modular processors per event context
+- **`pkg/types/telemetry`**: Telemetry events (`telemetry.Event`)
+- **`pkg/types/alert`**: Alert events (`alert.Event`)
+- **`pkg/types/dms`**: DMS events (`dms.Event`)
+- **`pkg/types/driverbehavior`**: Behavior events (`driverbehavior.Event`)
+- **`pkg/types/vehicle`**: Vehicle events (`vehicle.Event`)
 
-### Evento Base
+### Base Event
 ```go
 import "go-eventlib/pkg/types/base"
 
@@ -152,7 +152,7 @@ type BaseEvent struct {
     Attributes base.Attributes  `json:"attributes"`
 }
 
-// Métodos helper disponíveis:
+// Available helper methods:
 // GetID() string
 // GetCategory() base.EventCategory
 // GetSubType() base.EventSub
@@ -160,9 +160,9 @@ type BaseEvent struct {
 // GetCreatedAt() time.Time
 ```
 
-### Tipos Específicos de Eventos
+### Specific Event Types
 
-Cada categoria de evento tem seu próprio tipo com métodos helper:
+Each event category has its own type with helper methods:
 
 ```go
 import (
@@ -186,34 +186,34 @@ telemetryData := telemetryEvent.GetTelemetryData()
 batteryMetrics := telemetryEvent.GetBatteryMetrics()
 ```
 
-## Verificação de Tipos de Evento
+## Event Type Verification
 
 ```go
 import "go-eventlib/pkg/types/base"
 
-// Verificar categoria do evento
+// Check event category
 if event.Category == base.EventCategoryOrder {
-    // Lidar com evento de ordem
+    // Handle order event
 }
 
 if event.Category == base.EventCategoryConnection {
-    // Lidar com evento de conexão
+    // Handle connection event
 }
 
 if event.Category == base.EventCategoryVision {
-    // Lidar com evento de visão
+    // Handle vision event
 }
 
-// Acessar informações do evento usando métodos helper
+// Access event information using helper methods
 deviceID := event.GetDeviceID()
 accountID := event.Attributes.Device.AccountID
 ```
 
-## SDK Webhook Agnóstica
+## Agnostic Webhook SDK
 
-O **SDK Webhook agnóstico** permite consumir eventos IoT de forma simples. **Não inclui servidor HTTP** - você cria seu próprio servidor HTTP e usa a SDK apenas para parsear eventos.
+The **Agnostic Webhook SDK** allows you to consume IoT events simply. **It does not include an HTTP server** - you create your own HTTP server and use the SDK only to parse events.
 
-### Uso Básico com Callbacks
+### Basic Usage with Callbacks
 
 ```go
 package main
@@ -240,17 +240,17 @@ func main() {
     eventHandler := webhook.NewEventHandler()
     eventHandler.OnOrderReceived = func(ctx context.Context, event *order.Event) error {
         if ord := event.GetOrder(); ord != nil {
-            logger.Printf("Ordem recebida: ID=%s, Status=%s, Type=%s", event.ID, ord.Status, ord.Type)
+            logger.Printf("Order received: ID=%s, Status=%s, Type=%s", event.ID, ord.Status, ord.Type)
         } else {
-            logger.Printf("Ordem recebida: ID=%s, Status=%s", event.ID, event.Status)
+            logger.Printf("Order received: ID=%s, Status=%s", event.ID, event.Status)
         }
         return nil
     }
     eventHandler.OnOrderAck = func(ctx context.Context, event *order.Event) error {
         if ord := event.GetOrder(); ord != nil {
-            logger.Printf("Ordem confirmada: ID=%s, Status=%s", event.ID, ord.Status)
+            logger.Printf("Order confirmed: ID=%s, Status=%s", event.ID, ord.Status)
         } else {
-            logger.Printf("Ordem confirmada: ID=%s", event.ID)
+            logger.Printf("Order confirmed: ID=%s", event.ID)
         }
         return nil
     }
@@ -258,24 +258,24 @@ func main() {
     connectionHandler := webhook.NewConnectionHandler()
     connectionHandler.OnWifiConnected = func(ctx context.Context, event *connection.Event) error {
         if wifi := event.GetWifiConnection(); wifi != nil {
-            logger.Printf("WiFi conectado: Device=%s, Status=%s", event.Attributes.Device.ID, wifi.Status)
+            logger.Printf("WiFi connected: Device=%s, Status=%s", event.Attributes.Device.ID, wifi.Status)
         } else {
-            logger.Printf("WiFi conectado: Device=%s", event.Attributes.Device.ID)
+            logger.Printf("WiFi connected: Device=%s", event.Attributes.Device.ID)
         }
         return nil
     }
     connectionHandler.OnWifiDisconnected = func(ctx context.Context, event *connection.Event) error {
-        logger.Printf("WiFi desconectado: Device=%s", event.Attributes.Device.ID)
+        logger.Printf("WiFi disconnected: Device=%s", event.Attributes.Device.ID)
         return nil
     }
     connectionHandler.OnSimCardChanged = func(ctx context.Context, event *connection.Event) error {
         if sim := event.GetSimCard(); sim != nil {
-            logger.Printf("SIM card alterado: Device=%s, Status=%s", event.Attributes.Device.ID, sim.Status)
+            logger.Printf("SIM card changed: Device=%s, Status=%s", event.Attributes.Device.ID, sim.Status)
         }
         return nil
     }
     connectionHandler.OnConnectionError = func(ctx context.Context, event *connection.Event) error {
-        logger.Printf("Erro de conexão: Device=%s", event.Attributes.Device.ID)
+        logger.Printf("Connection error: Device=%s", event.Attributes.Device.ID)
         return nil
     }
 
@@ -297,30 +297,30 @@ func main() {
     }
 
     go func() {
-        logger.Printf("Servidor webhook iniciado na porta 8080")
+        logger.Printf("Webhook server started on port 8080")
         logger.Printf("Endpoint: http://localhost:8080/")
 
         if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
-            log.Fatalf("Erro ao iniciar servidor: %v", err)
+            log.Fatalf("Error starting server: %v", err)
         }
     }()
 
     sigChan := make(chan os.Signal, 1)
     signal.Notify(sigChan, syscall.SIGINT, syscall.SIGTERM)
 
-    logger.Printf("Servidor webhook rodando. Pressione Ctrl+C para parar.")
+    logger.Printf("Webhook server running. Press Ctrl+C to stop.")
 
     <-sigChan
-    logger.Printf("Sinal de interrupção recebido, encerrando servidor...")
+    logger.Printf("Interrupt signal received, shutting down server...")
 
     ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
     defer cancel()
 
     if err := server.Shutdown(ctx); err != nil {
-        log.Fatalf("Erro ao parar servidor: %v", err)
+        log.Fatalf("Error stopping server: %v", err)
     }
 
-    logger.Printf("Servidor encerrado com sucesso")
+    logger.Printf("Server shut down successfully")
 }
 
 func handleWebhook(w http.ResponseWriter, r *http.Request, processor webhook.EventProcessor, logger *log.Logger) {
@@ -331,7 +331,7 @@ func handleWebhook(w http.ResponseWriter, r *http.Request, processor webhook.Eve
 
     body, err := io.ReadAll(r.Body)
     if err != nil {
-        logger.Printf("Erro ao ler corpo: %v", err)
+        logger.Printf("Error reading body: %v", err)
         http.Error(w, "Bad request", http.StatusBadRequest)
         return
     }
@@ -340,26 +340,26 @@ func handleWebhook(w http.ResponseWriter, r *http.Request, processor webhook.Eve
     ctx := context.Background()
     event, err := processor.ProcessEvent(ctx, body)
     if err != nil {
-        logger.Printf("Erro ao processar evento: %v", err)
+        logger.Printf("Error processing event: %v", err)
         http.Error(w, "Internal server error", http.StatusInternalServerError)
         return
     }
 
     eventJSON, err := json.MarshalIndent(event, "", "  ")
     if err != nil {
-        logger.Printf("Erro ao serializar evento: %v", err)
-        logger.Printf("Evento processado: ID=%s, Category=%s, Type=%s", event.ID, event.Category, event.Type)
+        logger.Printf("Error serializing event: %v", err)
+        logger.Printf("Event processed: ID=%s, Category=%s, Type=%s", event.ID, event.Category, event.Type)
     } else {
-        logger.Printf("Evento processado:\n%s", string(eventJSON))
+        logger.Printf("Event processed:\n%s", string(eventJSON))
     }
 
     w.WriteHeader(http.StatusAccepted)
 }
 ```
 
-### Handlers Disponíveis
+### Available Handlers
 
-A SDK oferece handlers pré-definidos com callbacks para facilitar o consumo de eventos:
+The SDK provides predefined handlers with callbacks to facilitate event consumption:
 
 #### EventHandler
 ```go
@@ -368,13 +368,13 @@ import "go-eventlib/pkg/types/order"
 eventHandler := webhook.NewEventHandler()
 eventHandler.OnOrderReceived = func(ctx context.Context, event *order.Event) error {
     if ord := event.GetOrder(); ord != nil {
-        // Processar ordem recebida com dados específicos
-        log.Printf("Ordem: %s, Status: %s", ord.ID, ord.Status)
+        // Process received order with specific data
+        log.Printf("Order: %s, Status: %s", ord.ID, ord.Status)
     }
     return nil
 }
 eventHandler.OnOrderAck = func(ctx context.Context, event *order.Event) error {
-    // Processar ordem confirmada
+    // Process confirmed order
     return nil
 }
 
@@ -390,12 +390,12 @@ import "go-eventlib/pkg/types/connection"
 connectionHandler := webhook.NewConnectionHandler()
 connectionHandler.OnWifiConnected = func(ctx context.Context, event *connection.Event) error {
     if wifi := event.GetWifiConnection(); wifi != nil {
-        log.Printf("WiFi conectado: %s", wifi.Name)
+        log.Printf("WiFi connected: %s", wifi.Name)
     }
     return nil
 }
 connectionHandler.OnWifiDisconnected = func(ctx context.Context, event *connection.Event) error {
-    // WiFi desconectado
+    // WiFi disconnected
     return nil
 }
 connectionHandler.OnSimCardChanged = func(ctx context.Context, event *connection.Event) error {
@@ -405,7 +405,7 @@ connectionHandler.OnSimCardChanged = func(ctx context.Context, event *connection
     return nil
 }
 connectionHandler.OnConnectionError = func(ctx context.Context, event *connection.Event) error {
-    // Erro de conexão
+    // Connection error
     return nil
 }
 
@@ -421,28 +421,28 @@ import "go-eventlib/pkg/types/vision"
 visionHandler := webhook.NewVisionHandler()
 visionHandler.OnFaceDetected = func(ctx context.Context, event *vision.Event) error {
     if faceData := event.GetFaceDetectedData(); faceData != nil {
-        // Processar dados de face detectada
+        // Process detected face data
     }
     return nil
 }
 visionHandler.OnFaceLost = func(ctx context.Context, event *vision.Event) error {
-    // Face perdida
+    // Face lost
     return nil
 }
 visionHandler.OnFaceTracked = func(ctx context.Context, event *vision.Event) error {
-    // Face rastreada
+    // Face tracked
     return nil
 }
 visionHandler.OnNoFaceDetected = func(ctx context.Context, event *vision.Event) error {
-    // Sem face detectada
+    // No face detected
     return nil
 }
 visionHandler.OnCameraObstructed = func(ctx context.Context, event *vision.Event) error {
-    // Câmera obstruída
+    // Camera obstructed
     return nil
 }
 visionHandler.OnVisionAlert = func(ctx context.Context, event *vision.Event) error {
-    // Alerta de visão genérico
+    // Generic vision alert
     return nil
 }
 
@@ -458,36 +458,36 @@ import "go-eventlib/pkg/types/hardware"
 hardwareHandler := webhook.NewHardwareHandler()
 hardwareHandler.OnDeviceRestart = func(ctx context.Context, event *hardware.Event) error {
     if sysData := event.GetSystemEventData(); sysData != nil {
-        log.Printf("Dispositivo reiniciado: %s", sysData.EventName)
+        log.Printf("Device restarted: %s", sysData.EventName)
     }
     return nil
 }
 hardwareHandler.OnVehicleBatteryConnected = func(ctx context.Context, event *hardware.Event) error {
-    // Bateria do veículo conectada
+    // Vehicle battery connected
     return nil
 }
 hardwareHandler.OnVehicleBatteryDisconnected = func(ctx context.Context, event *hardware.Event) error {
-    // Bateria do veículo desconectada
+    // Vehicle battery disconnected
     return nil
 }
 hardwareHandler.OnSDCardMounted = func(ctx context.Context, event *hardware.Event) error {
-    // SD card montado
+    // SD card mounted
     return nil
 }
 hardwareHandler.OnSDCardUnmounted = func(ctx context.Context, event *hardware.Event) error {
-    // SD card desmontado
+    // SD card unmounted
     return nil
 }
 hardwareHandler.OnSimCardInserted = func(ctx context.Context, event *hardware.Event) error {
-    // SIM card inserido
+    // SIM card inserted
     return nil
 }
 hardwareHandler.OnSimCardRemoved = func(ctx context.Context, event *hardware.Event) error {
-    // SIM card removido
+    // SIM card removed
     return nil
 }
 hardwareHandler.OnHardwareAlert = func(ctx context.Context, event *hardware.Event) error {
-    // Alerta de hardware
+    // Hardware alert
     return nil
 }
 
@@ -508,7 +508,7 @@ systemHandler.OnUploadEvent = func(ctx context.Context, event *system.Event) err
     return nil
 }
 systemHandler.OnSystemAlert = func(ctx context.Context, event *system.Event) error {
-    // Alerta de sistema
+    // System alert
     return nil
 }
 
@@ -524,7 +524,7 @@ import "go-eventlib/pkg/types/telemetry"
 telemetryHandler := webhook.NewTelemetryHandler()
 telemetryHandler.OnBatteryEvent = func(ctx context.Context, event *telemetry.Event) error {
     if metrics := event.GetBatteryMetrics(); metrics != nil {
-        // Processar métricas de bateria
+        // Process battery metrics
     }
     return nil
 }
@@ -535,11 +535,11 @@ telemetryHandler.OnIgnitionEvent = func(ctx context.Context, event *telemetry.Ev
     return nil
 }
 telemetryHandler.OnLocationEvent = func(ctx context.Context, event *telemetry.Event) error {
-    // Evento de localização
+    // Location event
     return nil
 }
 telemetryHandler.OnTelemetryEvent = func(ctx context.Context, event *telemetry.Event) error {
-    // Qualquer evento de telemetria
+    // Any telemetry event
     return nil
 }
 
@@ -554,20 +554,20 @@ import "go-eventlib/pkg/types/alert"
 
 alertHandler := webhook.NewAlertHandler()
 alertHandler.OnCriticalAlert = func(ctx context.Context, event *alert.Event) error {
-    log.Printf("Alerta crítico: %s", event.GetAlertLevel())
+    log.Printf("Critical alert: %s", event.GetAlertLevel())
     return nil
 }
 alertHandler.OnWarningAlert = func(ctx context.Context, event *alert.Event) error {
-    // Alerta de aviso
+    // Warning alert
     return nil
 }
 alertHandler.OnInfoAlert = func(ctx context.Context, event *alert.Event) error {
-    // Alerta informativo
+    // Informational alert
     return nil
 }
 alertHandler.OnAnyAlert = func(ctx context.Context, event *alert.Event) error {
     if alertData := event.GetAlertEventData(); alertData != nil {
-        log.Printf("Alerta: %s", alertData.EventName)
+        log.Printf("Alert: %s", alertData.EventName)
     }
     return nil
 }
@@ -584,50 +584,50 @@ import "go-eventlib/pkg/types/dms"
 dmsHandler := webhook.NewDMSHandler()
 dmsHandler.OnDrowsiness = func(ctx context.Context, event *dms.Event) error {
     if drowsiness := event.GetDrowsinessData(); drowsiness != nil {
-        // Processar dados de sonolência
+        // Process drowsiness data
     }
     return nil
 }
 dmsHandler.OnDrinking = func(ctx context.Context, event *dms.Event) error {
     if drinking := event.GetDrinkingData(); drinking != nil {
-        // Processar dados de bebida
+        // Process drinking data
     }
     return nil
 }
 dmsHandler.OnEating = func(ctx context.Context, event *dms.Event) error {
-    // Comendo detectado
+    // Eating detected
     return nil
 }
 dmsHandler.OnEyeClosure = func(ctx context.Context, event *dms.Event) error {
-    // Fechamento de olhos
+    // Eye closure
     return nil
 }
 dmsHandler.OnGazeDistraction = func(ctx context.Context, event *dms.Event) error {
-    // Distração visual
+    // Visual distraction
     return nil
 }
 dmsHandler.OnGazeFixation = func(ctx context.Context, event *dms.Event) error {
-    // Fixação do olhar
+    // Gaze fixation
     return nil
 }
 dmsHandler.OnPhone = func(ctx context.Context, event *dms.Event) error {
-    // Uso de celular
+    // Phone usage
     return nil
 }
 dmsHandler.OnPoseDistraction = func(ctx context.Context, event *dms.Event) error {
-    // Postura distraída
+    // Distracted posture
     return nil
 }
 dmsHandler.OnSmoking = func(ctx context.Context, event *dms.Event) error {
-    // Fumando detectado
+    // Smoking detected
     return nil
 }
 dmsHandler.OnYawning = func(ctx context.Context, event *dms.Event) error {
-    // Bocejando detectado
+    // Yawning detected
     return nil
 }
 dmsHandler.OnDMSAlert = func(ctx context.Context, event *dms.Event) error {
-    // Qualquer alerta DMS
+    // Any DMS alert
     return nil
 }
 
@@ -643,38 +643,38 @@ import "go-eventlib/pkg/types/driverbehavior"
 driverBehaviorHandler := webhook.NewDriverBehaviorHandler()
 driverBehaviorHandler.OnHarshAcceleration = func(ctx context.Context, event *driverbehavior.Event) error {
     if accel := event.GetHarshAccelerationData(); accel != nil {
-        // Processar dados de aceleração brusca
+        // Process harsh acceleration data
     }
     return nil
 }
 driverBehaviorHandler.OnHarshBraking = func(ctx context.Context, event *driverbehavior.Event) error {
     if braking := event.GetHarshBrakingData(); braking != nil {
-        // Processar dados de frenagem brusca
+        // Process harsh braking data
     }
     return nil
 }
 driverBehaviorHandler.OnMaxSpeedFault = func(ctx context.Context, event *driverbehavior.Event) error {
-    // Violação de velocidade máxima
+    // Maximum speed violation
     return nil
 }
 driverBehaviorHandler.OnNormalSpeedReturn = func(ctx context.Context, event *driverbehavior.Event) error {
-    // Retorno à velocidade normal
+    // Return to normal speed
     return nil
 }
 driverBehaviorHandler.OnPersistentMaxSpeed = func(ctx context.Context, event *driverbehavior.Event) error {
-    // Velocidade máxima persistente
+    // Persistent maximum speed
     return nil
 }
 driverBehaviorHandler.OnSharpTurn = func(ctx context.Context, event *driverbehavior.Event) error {
-    // Curva brusca
+    // Sharp turn
     return nil
 }
 driverBehaviorHandler.OnStartOvertaking = func(ctx context.Context, event *driverbehavior.Event) error {
-    // Início de ultrapassagem
+    // Start overtaking
     return nil
 }
 driverBehaviorHandler.OnDriverBehaviorAlert = func(ctx context.Context, event *driverbehavior.Event) error {
-    // Qualquer alerta de comportamento
+    // Any behavior alert
     return nil
 }
 
@@ -689,11 +689,11 @@ import "go-eventlib/pkg/types/vehicle"
 
 vehicleHandler := webhook.NewVehicleHandler()
 vehicleHandler.OnIgnitionOff = func(ctx context.Context, event *vehicle.Event) error {
-    // Ignição desligada
+    // Ignition off
     return nil
 }
 vehicleHandler.OnVehicleEvent = func(ctx context.Context, event *vehicle.Event) error {
-    // Qualquer evento do veículo
+    // Any vehicle event
     return nil
 }
 
@@ -702,78 +702,78 @@ processor := webhook.NewEventProcessorBuilder().
     Build()
 ```
 
-### Tipos de Eventos Suportados
+### Supported Event Types
 
-A SDK suporta processamento automático de callbacks para os seguintes tipos de eventos:
+The SDK supports automatic callback processing for the following event types:
 
-#### Eventos de Ordem
-- `ORDER_STATUS_ACK` - Ordem confirmada
-- `ORDER_STATUS_SENT` - Ordem enviada
-- `ORDER_STATUS_FAILED` - Ordem falhou
+#### Order Events
+- `ORDER_STATUS_ACK` - Order confirmed
+- `ORDER_STATUS_SENT` - Order sent
+- `ORDER_STATUS_FAILED` - Order failed
 
-#### Eventos de Conexão
-- `WIFI_CONNECTED` - WiFi conectado
-- `WIFI_DISCONNECTED` - WiFi desconectado
-- Mudanças de SIM card
-- Erros críticos de conexão
+#### Connection Events
+- `WIFI_CONNECTED` - WiFi connected
+- `WIFI_DISCONNECTED` - WiFi disconnected
+- SIM card changes
+- Critical connection errors
 
-#### Eventos DMS (Driver Monitoring System)
-- `DROWSINESS` - Sonolência detectada
-- `GAZE_DISTRACTION` - Distração visual
-- `GAZE_FIXATION` - Fixação do olhar
-- `EYE_CLOSURE` - Fechamento de olhos
-- `ON_PHONE` - Uso de celular
-- `EATING` - Comendo
-- `DRINKING` - Bebendo
-- `POSE_DISTRACTION` - Postura distraída
+#### DMS Events (Driver Monitoring System)
+- `DROWSINESS` - Drowsiness detected
+- `GAZE_DISTRACTION` - Visual distraction
+- `GAZE_FIXATION` - Gaze fixation
+- `EYE_CLOSURE` - Eye closure
+- `ON_PHONE` - Phone usage
+- `EATING` - Eating
+- `DRINKING` - Drinking
+- `POSE_DISTRACTION` - Distracted posture
 
-#### Eventos de Comportamento do Motorista
-- `HARSH_ACCELERATION` - Aceleração brusca
-- `HARSH_BRAKING` - Frenagem brusca
-- `SPEED_VIOLATION` - Violação de velocidade
-- Velocidade máxima persistente
+#### Driver Behavior Events
+- `HARSH_ACCELERATION` - Harsh acceleration
+- `HARSH_BRAKING` - Harsh braking
+- `SPEED_VIOLATION` - Speed violation
+- Persistent maximum speed
 
-#### Eventos de Hardware (EVENT_CATEGORY_HEALTH)
-- `RESTART` / `REBOOT` / `R2_RESTART` - Reinício do dispositivo
-- `SD_CARD_MOUNTED` / `SD_CARD_UNMOUNTED` - SD Card montado/desmontado
-- `SIMCARD_INSERTED` / `SIMCARD_REMOVED` / `SIMCARD_PRESENT` - Mudanças de SIM Card
-- `VEHICLE_BATTERY_CONNECTED` / `VEHICLE_BATTERY_DISCONNECTED` - Bateria do veículo
+#### Hardware Events (EVENT_CATEGORY_HEALTH)
+- `RESTART` / `REBOOT` / `R2_RESTART` - Device restart
+- `SD_CARD_MOUNTED` / `SD_CARD_UNMOUNTED` - SD Card mounted/unmounted
+- `SIMCARD_INSERTED` / `SIMCARD_REMOVED` / `SIMCARD_PRESENT` - SIM Card changes
+- `VEHICLE_BATTERY_CONNECTED` / `VEHICLE_BATTERY_DISCONNECTED` - Vehicle battery
 
-#### Eventos de Telemetria
-- `EVENT_SUB_TELEMETRY_IGNITION` - Status de ignição
-- `EVENT_SUB_TELEMETRY_BATTERY` - Status de bateria
-- `EVENT_SUB_TELEMETRY_LOCATION` - Localização GPS
+#### Telemetry Events
+- `EVENT_SUB_TELEMETRY_IGNITION` - Ignition status
+- `EVENT_SUB_TELEMETRY_BATTERY` - Battery status
+- `EVENT_SUB_TELEMETRY_LOCATION` - GPS location
 
-## Exemplos
+## Examples
 
-Confira os exemplos em `examples/`:
+Check out the examples in `examples/`:
 
-- `webhook/main.go`: Exemplo completo de servidor webhook usando net/http com todos os handlers
+- `webhook/main.go`: Complete webhook server example using net/http with all handlers
 
-Para executar o exemplo:
+To run the example:
 
 ```bash
-# Usando Air (hot reload)
+# Using Air (hot reload)
 cd go-eventlib
 air
 
-# Ou execução direta
+# Or direct execution
 cd examples/webhook
 go run main.go
 
-# Ou build e execução
+# Or build and run
 go build -o ./tmp/webhook-example ./examples/webhook/main.go
 ./tmp/webhook-example
 ```
 
-O servidor inicia na porta 8080. Veja `examples/webhook/README.md` para mais detalhes.
+The server starts on port 8080. See `examples/webhook/README.md` for more details.
 
-### Integração com Frameworks HTTP
+### HTTP Framework Integration
 
-#### Com net/http (padrão)
+#### With net/http (default)
 ```go
 processor := webhook.NewEventProcessor()
-// Configurar handlers...
+// Configure handlers...
 
 http.HandleFunc("/webhook", func(w http.ResponseWriter, r *http.Request) {
     body, _ := io.ReadAll(r.Body)
@@ -783,14 +783,14 @@ http.HandleFunc("/webhook", func(w http.ResponseWriter, r *http.Request) {
         http.Error(w, "Error", 500)
         return
     }
-    // Callbacks são chamados automaticamente
+    // Callbacks are called automatically
 })
 ```
 
-#### Com Gin
+#### With Gin
 ```go
 processor := webhook.NewEventProcessor()
-// Configurar handlers...
+// Configure handlers...
 
 r := gin.Default()
 r.POST("/webhook", func(c *gin.Context) {
@@ -800,14 +800,14 @@ r.POST("/webhook", func(c *gin.Context) {
         c.JSON(500, gin.H{"error": err.Error()})
         return
     }
-    // Callbacks são chamados automaticamente
+    // Callbacks are called automatically
 })
 ```
 
-#### Com Echo
+#### With Echo
 ```go
 processor := webhook.NewEventProcessor()
-// Configurar handlers...
+// Configure handlers...
 
 e := echo.New()
 e.POST("/webhook", func(c echo.Context) error {
@@ -816,15 +816,15 @@ e.POST("/webhook", func(c echo.Context) error {
     if err != nil {
         return c.JSON(500, map[string]string{"error": err.Error()})
     }
-    // Callbacks são chamados automaticamente
+    // Callbacks are called automatically
     return c.JSON(200, event)
 })
 ```
 
 
-### Exemplos de Payloads de Teste
+### Test Payload Examples
 
-#### Evento de Ordem (ACK)
+#### Order Event (ACK)
 ```json
 {
   "id": "01KCHNX0HKAAAZD4ZMTY35P8XJ",
@@ -853,7 +853,7 @@ e.POST("/webhook", func(c echo.Context) error {
 }
 ```
 
-#### Evento de Telemetria (Ignition)
+#### Telemetry Event (Ignition)
 ```json
 {
   "id": "01HXXXXXXXXXXXXXXXXXXXXX",
@@ -897,7 +897,7 @@ e.POST("/webhook", func(c echo.Context) error {
 }
 ```
 
-#### Evento DMS (Sonolência)
+#### DMS Event (Drowsiness)
 ```json
 {
   "id": "01KCHNFZWN4YPSM0A4YFMH09T2",
@@ -939,55 +939,55 @@ e.POST("/webhook", func(c echo.Context) error {
 }
 ```
 
-### Arquivos de Exemplo para Testes
+### Example Test Files
 
-A biblioteca inclui 46+ exemplos reais de eventos JSON organizados por categoria:
+The library includes 46+ real JSON event examples organized by category:
 
-- **ack-events/** (3 arquivos): Eventos de confirmação de ordens e uploads
-- **dms-events/** (11 arquivos): Eventos de Driver Monitoring System
-- **driver-behavior-events/** (7 arquivos): Eventos de comportamento do motorista
-- **hardware-events/** (14 arquivos): Eventos de hardware e sistema
-- **telemetry-events/** (6 arquivos): Eventos de telemetria e localização
-- **vision-basic-events/** (5 arquivos): Eventos básicos de visão
+- **ack-events/** (3 files): Order confirmation and upload events
+- **dms-events/** (11 files): Driver Monitoring System events
+- **driver-behavior-events/** (7 files): Driver behavior events
+- **hardware-events/** (14 files): Hardware and system events
+- **telemetry-events/** (6 files): Telemetry and location events
+- **vision-basic-events/** (5 files): Basic vision events
 
-Esses arquivos estão disponíveis em `event-mapping-viewer/src/mindmap-sections/serialized-jsons/` e podem ser usados para testes e desenvolvimento.
+These files are available in `event-mapping-viewer/src/mindmap-sections/serialized-jsons/` and can be used for testing and development.
 
-## Arquitetura
+## Architecture
 
-A biblioteca utiliza uma arquitetura modular com processors especializados:
+The library uses a modular architecture with specialized processors:
 
-- **EventProcessor**: Interface principal para processamento de eventos
-- **EventProcessorBuilder**: Builder pattern para configuração fluente
-- **Processors**: Processors modulares por contexto (OrderProcessor, ConnectionProcessor, VisionProcessor, etc.)
-- **Handlers**: Handlers com callbacks específicos para cada tipo de evento
+- **EventProcessor**: Main interface for event processing
+- **EventProcessorBuilder**: Builder pattern for fluent configuration
+- **Processors**: Modular processors per context (OrderProcessor, ConnectionProcessor, VisionProcessor, etc.)
+- **Handlers**: Handlers with specific callbacks for each event type
 
-O parsing é feito usando `protocol-cloud` com `protojson`, garantindo:
-- Compatibilidade total com o protocolo V3
-- Validação baseada em Protocol Buffers
-- Suporte a enums e tipos complexos do protocol-cloud
-- Mesmas opções de MarshalOptions do event-handler-worker
+Parsing is done using `protocol-cloud` with `protojson`, ensuring:
+- Full compatibility with V3 protocol
+- Protocol Buffers-based validation
+- Support for enums and complex types from protocol-cloud
+- Same MarshalOptions as event-handler-worker
 
-## Dependências
+## Dependencies
 
-- `github.com/v3-tecnologia/protocol-cloud`: Protocolo de eventos V3
-- `google.golang.org/protobuf/encoding/protojson`: Parsing JSON para Protocol Buffers
+- `github.com/v3-tecnologia/protocol-cloud`: V3 event protocol
+- `google.golang.org/protobuf/encoding/protojson`: JSON parsing for Protocol Buffers
 
-## Testes
+## Testing
 
-A biblioteca possui cobertura de testes de **55.2%**:
+The library has **55.2%** test coverage:
 
 ```bash
-# Executar todos os testes com coverage
+# Run all tests with coverage
 go test ./... -coverprofile=coverage.out -covermode=atomic
 
-# Ver coverage detalhado
+# View detailed coverage
 go tool cover -func=coverage.out
 
-# Gerar relatório HTML
+# Generate HTML report
 go tool cover -html=coverage.out -o coverage.html
 ```
 
-**Coverage por pacote:**
+**Coverage by package:**
 - `pkg/types/base`: 100.0%
 - `pkg/types/order`: 100.0%
 - `pkg/types/vehicle`: 100.0%
@@ -995,16 +995,16 @@ go tool cover -html=coverage.out -o coverage.html
 - `pkg/types/alert`: 88.9%
 - `pkg/types/connection`: 88.0%
 - `pkg/webhook`: 82.6%
-- Outros pacotes: 85-87%
+- Other packages: 85-87%
 
-## Contribuição
+## Contributing
 
-1. Fork o projeto
-2. Crie uma branch para sua feature (`git checkout -b feature/nova-feature`)
-3. Commit suas mudanças (`git commit -am 'Adiciona nova feature'`)
-4. Push para a branch (`git push origin feature/nova-feature`)
-5. Abra um Pull Request
+1. Fork the project
+2. Create a branch for your feature (`git checkout -b feature/new-feature`)
+3. Commit your changes (`git commit -am 'Add new feature'`)
+4. Push to the branch (`git push origin feature/new-feature`)
+5. Open a Pull Request
 
-## Licença
+## License
 
-Este projeto está licenciado sob a MIT License - veja o arquivo LICENSE para detalhes.
+This project is licensed under the MIT License - see the LICENSE file for details.
