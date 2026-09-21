@@ -1,8 +1,8 @@
 package vehicle
 
 import (
-	"go-eventlib/pkg/types/base"
-	"go-eventlib/pkg/types/telemetry"
+	"github.com/v3-tecnologia/v3-webhook-go-sdk/pkg/types/base"
+	"github.com/v3-tecnologia/v3-webhook-go-sdk/pkg/types/telemetry"
 )
 
 type Event struct {

@@ -4,7 +4,7 @@ import (
 	"testing"
 	"time"
 
-	"go-eventlib/pkg/types/base"
+	"github.com/v3-tecnologia/v3-webhook-go-sdk/pkg/types/base"
 )
 
 func TestAlertEvent_GetAlertLevel(t *testing.T) {
