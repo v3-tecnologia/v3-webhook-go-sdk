@@ -4,8 +4,8 @@ import (
 	"testing"
 	"time"
 
-	"go-eventlib/pkg/types/base"
-	"go-eventlib/pkg/types/telemetry"
+	"github.com/v3-tecnologia/v3-webhook-go-sdk/pkg/types/base"
+	"github.com/v3-tecnologia/v3-webhook-go-sdk/pkg/types/telemetry"
 )
 
 func TestVehicleEvent_GetVehicleTelemetry(t *testing.T) {

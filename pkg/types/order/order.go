@@ -1,7 +1,7 @@
 package order
 
 import (
-	"go-eventlib/pkg/types/base"
+	"github.com/v3-tecnologia/v3-webhook-go-sdk/pkg/types/base"
 )
 
 type Event struct {
