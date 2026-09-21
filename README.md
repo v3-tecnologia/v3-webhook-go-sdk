@@ -6,65 +6,61 @@
 
 <p align="center">
   <a href="#tech-stack">Tech Stack</a> •
-  <a href="#requirements">Requirements / Pré-requisitos</a> •
-  <a href="#get-started">Get Started / Como executar</a> •
-  <a href="#routing">Routing / Roteamento</a> •
-  <a href="#testing">Testing / Testes</a> •
-  <a href="#contribute">Contributing / Como contribuir</a>
+  <a href="#requirements">Pré-requisitos</a> •
+  <a href="#get-started">Como Executar</a> •
+  <a href="#routing">Roteamento</a> •
+  <a href="#testing">Testes</a> •
+  <a href="#contribute">Como Contribuir</a>
 </p>
 
 <p align="center">
-<b>Go SDK for processing V3 Tecnologia IoT Webhooks, mirrored from <a href="https://github.com/v3-tecnologia/v3-webhook-dotnet-sdk">v3-webhook-dotnet-sdk</a>. Transport-agnostic (no HTTP server). Routing is driven by protocol-cloud protobuf types — not magic strings.</b>
-</p>
-
-<p align="center">
-<b>SDK em Go para processar Webhooks IoT da V3 Tecnologia, espelhada do <a href="https://github.com/v3-tecnologia/v3-webhook-dotnet-sdk">v3-webhook-dotnet-sdk</a>. Agnóstica de transporte (sem servidor HTTP). O roteamento é guiado pelos tipos protobuf do protocol-cloud — sem magic strings.</b>
+<b>SDK em Go para processar Webhooks IoT da V3 Tecnologia. Agnóstica de transporte (sem servidor HTTP). O roteamento é guiado pelos tipos protobuf do protocol-cloud — sem magic strings.</b>
 </p>
 
 <h2 id="tech-stack">💻 Tech Stack</h2>
 
-This project uses the following technologies / Este projeto utiliza as seguintes tecnologias:
+Este projeto utiliza as seguintes tecnologias:
 
 - [Go 1.25+](https://golang.org/)
-- [protocol-cloud](https://github.com/v3-tecnologia/protocol-cloud) (protobuf domain models)
+- [protocol-cloud](https://github.com/v3-tecnologia/protocol-cloud) (modelos de domínio protobuf)
 - [google.golang.org/protobuf](https://pkg.go.dev/google.golang.org/protobuf) (protojson)
 
-<h2 id="requirements">❗ Requirements / Pré-requisitos</h2>
+<h2 id="requirements">❗ Pré-requisitos</h2>
 
-To use this SDK, you need / Para usar esta SDK, você precisa:
+Para usar esta SDK, você precisará ter instalado:
 
 - [Go 1.25+](https://golang.org/doc/install)
 - [Git](https://git-scm.com/downloads)
-- Access to private V3 modules (`GOPRIVATE`) / Acesso aos módulos privados da V3 (`GOPRIVATE`)
+- Acesso aos módulos privados da V3 (`GOPRIVATE`)
 
-<h2 id="get-started">🚀 Get Started / Como executar</h2>
+<h2 id="get-started">🚀 Como executar?</h2>
 
-### 0. Clone the repository / Clonar o repositório
+### 0. Clonar o repositório
 
 ```bash
 git clone git@github.com:v3-tecnologia/v3-webhook-go-sdk.git
 cd v3-webhook-go-sdk
 ```
 
-### 1. Private modules / Módulos privados
+### 1. Módulos privados
 
 ```bash
 export GOPRIVATE=github.com/v3-tecnologia/*
 ```
 
-### 2. Install / Instalar
+### 2. Instalar
 
 ```bash
 go get github.com/v3-tecnologia/v3-webhook-go-sdk@latest
 ```
 
-Or, from the repository / Ou, a partir do repositório:
+Ou, a partir do repositório:
 
 ```bash
 go mod tidy
 ```
 
-### 3. Quick start / Uso rápido
+### 3. Uso rápido
 
 ```go
 package main
@@ -119,20 +115,20 @@ func main() {
 }
 ```
 
-A runnable example lives at `examples/webhook` / Um exemplo executável está em `examples/webhook`:
+Um exemplo executável está em `examples/webhook`:
 
 ```bash
 go run ./examples/webhook
 ```
 
-### 4. Signature validation (optional) / Validação de assinatura (opcional)
+### 4. Validação de assinatura (opcional)
 
 ```go
 builder := processing.NewBuilder().WithHMACSHA256("secret")
 result := builder.Build().ProcessWebhook(ctx, body, signatureHeader)
 ```
 
-### 5. Persistence (optional) / Persistência (opcional)
+### 5. Persistência (opcional)
 
 ```go
 store := persistence.NewInMemoryStore()
@@ -142,23 +138,22 @@ builder := processing.NewBuilder().WithPersistence(
 )
 ```
 
-<h2 id="routing">🧭 Routing / Roteamento</h2>
+<h2 id="routing">🧭 Roteamento</h2>
 
-The protocol is the source of truth / O protocolo é a fonte da verdade:
+O protocolo é a fonte da verdade:
 
-1. Parse JSON → `domain.notifications.v1.Webhook` (protojson)
-2. For each `attributes[]` event / Para cada evento em `attributes[]`:
-   - If `data` is set → require `trip_event` or `standalone_event` / Se `data` estiver definido → exige `trip_event` ou `standalone_event`
-   - Resolve `event_group` oneof (envelope: `Dms`, `Alert`, `System`, ...)
-   - Resolve envelope event oneof (payload: `DrowsinessEvent`, `ImpactEvent`, ...)
-   - Dispatch by **protobuf message full name** of the payload / Despacha pelo **nome completo protobuf** do payload
-   - If `order` is set → dispatch by `orders.v1.OrderStatus` enum / Se `order` estiver definido → despacha pelo enum `orders.v1.OrderStatus`
-3. Protocol violations return failure / Violações de protocolo retornam falha
+1. Parse do JSON → `domain.notifications.v1.Webhook` (protojson)
+2. Para cada evento em `attributes[]`:
+   - Se `data` estiver definido → exige `trip_event` ou `standalone_event`
+   - Resolve o oneof `event_group` (envelope: `Dms`, `Alert`, `System`, ...)
+   - Resolve o oneof do evento no envelope (payload: `DrowsinessEvent`, `ImpactEvent`, ...)
+   - Despacha pelo **nome completo protobuf** do payload
+   - Se `order` estiver definido → despacha pelo enum `orders.v1.OrderStatus`
+3. Violações de protocolo retornam falha
 
-Unregistered payload types are skipped (success). Invalid protocol shape fails.  
 Tipos de payload não registrados são ignorados (sucesso). Formato inválido do protocolo falha.
 
-Producers that already hold domain events can call `ProcessEvents` / Produtores que já possuem eventos de domínio podem chamar `ProcessEvents`:
+Produtores que já possuem eventos de domínio podem chamar `ProcessEvents`:
 
 ```go
 result := processor.ProcessEvents(ctx, events)
@@ -166,43 +161,42 @@ result := processor.ProcessEvents(ctx, events)
 
 #### EventContext
 
-| Field / Campo | Description / Descrição |
+| Campo | Descrição |
 |---|---|
-| `ID` | Event id / Id do evento |
-| `HasMedia` | Media flag / Flag de mídia |
-| `PayloadKind` | Derived from protocol envelope / Derivado do envelope do protocolo |
-| `Status` / `Type` / `Category` / `Sub` | Event metadata / Metadados do evento |
-| `Device` | Device from attributes / Device dos attributes |
-| `Location` | Nested location when present / Localização aninhada quando presente |
-| `Save` / `GetEventByID` / ... | Persistence helpers when configured / Helpers de persistência quando configurados |
+| `ID` | Id do evento |
+| `HasMedia` | Flag de mídia |
+| `PayloadKind` | Derivado do envelope do protocolo |
+| `Status` / `Type` / `Category` / `Sub` | Metadados do evento |
+| `Device` | Device dos attributes |
+| `Location` | Localização aninhada quando presente |
+| `Save` / `GetEventByID` / ... | Helpers de persistência quando configurados |
 
-#### Project structure / Estrutura do projeto
+#### Estrutura do projeto
 
 ```
 .
-├── examples/webhook/     # HTTP sample consumer
+├── examples/webhook/     # consumidor HTTP de exemplo
 ├── pkg/
-│   ├── handlers/         # EventContext, results, persistence ports
-│   ├── persistence/      # In-memory reader/writer
-│   ├── processing/       # Builder, Processor, OnEvent routing
-│   ├── security/         # HMAC-SHA256 signature validation
-│   └── types/            # Legacy helpers (prefer protocol-cloud)
-├── test/events/          # Webhook JSON fixtures
+│   ├── handlers/         # EventContext, results, ports de persistência
+│   ├── persistence/      # reader/writer em memória
+│   ├── processing/       # Builder, Processor, roteamento OnEvent
+│   ├── security/         # validação HMAC-SHA256
+│   └── types/            # helpers legados (prefira protocol-cloud)
+├── test/events/          # fixtures JSON de webhook
 └── README.md
 ```
 
-> **Note / Nota:** `pkg/types/*` keeps older hand-rolled wrappers for compatibility. Prefer `pkg/processing` + `protocol-cloud` types for new code.  
-> `pkg/types/*` mantém wrappers antigos por compatibilidade. Prefira `pkg/processing` + tipos do `protocol-cloud` em código novo.
+> **Nota:** `pkg/types/*` mantém wrappers antigos por compatibilidade. Prefira `pkg/processing` + tipos do `protocol-cloud` em código novo.
 
-<h2 id="testing">🧪 Testing / Testes</h2>
+<h2 id="testing">🧪 Executando Testes</h2>
 
-To run tests / Para executar os testes:
+Para executar os testes:
 
 ```bash
 go test ./... -v
 ```
 
-Core packages with race detector and coverage / Pacotes core com race detector e cobertura:
+Pacotes core com race detector e cobertura:
 
 ```bash
 go test ./pkg/processing ./pkg/security ./pkg/handlers ./pkg/persistence \
@@ -212,33 +206,32 @@ go tool cover -func=coverage.out | tail -1
 go tool cover -html=coverage.out
 ```
 
-Core SDK packages target **>= 80%** statement coverage with the race detector enabled.  
 Os pacotes core da SDK miram **>= 80%** de cobertura com o race detector habilitado.
 
-Fixtures live under `test/events/` / Fixtures em `test/events/`.
+Fixtures em `test/events/`.
 
-<h2 id="contribute">📫 Contributing / Como contribuir</h2>
+<h2 id="contribute">📫 Como contribuir</h2>
 
-1. Fork the project / Faça um fork do projeto
-2. Create a feature branch / Crie uma branch para sua feature
+1. Faça um fork do projeto
+2. Crie uma branch para sua feature
    ```bash
    git checkout -b feature/nome-da-feature
    ```
-3. Follow conventional commits / Siga o padrão de commits convencional:
-   - `feat:` new features / novas features
-   - `fix:` bug fixes / correção de bugs
-   - `docs:` documentation / atualização de documentação
-   - `test:` tests / adição ou modificação de testes
-   - `refactor:` refactoring / refatoração de código
+3. Siga o padrão de commits convencional:
+   - `feat:` para novas features
+   - `fix:` para correção de bugs
+   - `docs:` para atualização de documentação
+   - `test:` para adição ou modificação de testes
+   - `refactor:` para refatoração de código
 
-4. Commit your changes / Faça commit das suas alterações:
+4. Faça commit das suas alterações:
    ```bash
-   git commit -m "feat: add new functionality"
+   git commit -m "feat: adiciona nova funcionalidade"
    ```
 
-5. Push your branch / Faça push para sua branch:
+5. Faça push para sua branch:
    ```bash
    git push origin feature/nome-da-feature
    ```
 
-6. Open a Pull Request describing the change and wait for review / Abra um Pull Request explicando a mudança e aguarde a revisão
+6. Abra um Pull Request explicando a mudança e aguarde a revisão
