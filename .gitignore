@@ -30,6 +30,7 @@ main
 
 tmp/
 *.json
+!test/events/**/*.json
 
 build-errors.log
 
