@@ -15,7 +15,14 @@ jobs:
     - name: Set up Go
       uses: actions/setup-go@v5
       with:
-        go-version: '1.24'
+        go-version: '1.25'
+
+    - name: Configure Git for private modules
+      run: |
+        git config --global url."https://x-access-token:${{ secrets.GO_PRIVATE_ACCESS_TOKEN }}@github.com/".insteadOf "https://github.com/"
+
+    - name: Set GOPRIVATE
+      run: go env -w GOPRIVATE=github.com/v3-tecnologia/*
 
     - name: Build
       run: go build -v ./...
